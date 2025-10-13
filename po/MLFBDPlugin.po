@@ -1,0 +1,387 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: MLFBDPlugin\n"
+"POT-Creation-Date: 2025-09-19 15:15+0400\n"
+"PO-Revision-Date: 2025-09-19 15:16+0400\n"
+"Last-Translator: Yury Bobylev <bobilev_yury@mail.ru>\n"
+"Language-Team: Yury Bobylev <bobilev_yury@mail.ru>\n"
+"Language: ru\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 3.7\n"
+"X-Poedit-Basepath: ../src\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: AddAuthorWindow.cpp:43 AuthorsView.cpp:576
+msgid "Edit author"
+msgstr "Редактировать автора"
+
+#: AddAuthorWindow.cpp:48 AuthorsView.cpp:582
+msgid "Edit translator"
+msgstr "Редактировать переводчика"
+
+#: AddAuthorWindow.cpp:59 AuthorsFrame.cpp:112
+msgid "Add author"
+msgstr "Добавить автора"
+
+#: AddAuthorWindow.cpp:64 AuthorsFrame.cpp:117
+msgid "Add translator"
+msgstr "Добавить переводчика"
+
+#: AddAuthorWindow.cpp:84
+msgid "Surname:"
+msgstr "Фамилия:"
+
+#: AddAuthorWindow.cpp:102
+msgid "First name:"
+msgstr "Имя:"
+
+#: AddAuthorWindow.cpp:120
+msgid "Middle name:"
+msgstr "Отчество:"
+
+#: AddAuthorWindow.cpp:138
+msgid "Nickname:"
+msgstr "Псевдоним:"
+
+#: AddAuthorWindow.cpp:156
+msgid "Home page:"
+msgstr "Домашняя страница:"
+
+#: AddAuthorWindow.cpp:220
+msgid "Edit"
+msgstr "Редактировать"
+
+#: AddAuthorWindow.cpp:224
+msgid "Add"
+msgstr "Добавить"
+
+#: AddAuthorWindow.cpp:234 AddGenreWindow.cpp:142 AddSequenceWindow.cpp:113
+#: CoverFrame.cpp:240 FilesWidget.cpp:154 FilesWidget.cpp:237
+#: SaveArchive.cpp:96
+msgid "Cancel"
+msgstr "Отмена"
+
+#: AddAuthorWindow.cpp:259
+msgid "Error"
+msgstr "Ошибка"
+
+#: AddAuthorWindow.cpp:275
+msgid "Surname cannot be empty!"
+msgstr "Фамилия не может быть пустой!"
+
+#: AddAuthorWindow.cpp:282 MLFBDPlugin.cpp:136 MLFBDPlugin.cpp:1642
+msgid "Close"
+msgstr "Закрыть"
+
+#: AddGenreWindow.cpp:36
+msgid "Add genre"
+msgstr "Добавить жанр"
+
+#: AddGenreWindow.cpp:131 MLFBDPlugin.cpp:128
+msgid "Apply"
+msgstr "Применить"
+
+#: AddSequenceWindow.cpp:37 AddSequenceWindow.cpp:99 SequenceView.cpp:327
+msgid "Edit sequence"
+msgstr "Редактировать серию"
+
+#: AddSequenceWindow.cpp:41 AddSequenceWindow.cpp:103 SequenceFrame.cpp:73
+#: SequenceView.cpp:324
+msgid "Add sequence"
+msgstr "Добавить серию"
+
+#: AddSequenceWindow.cpp:57
+msgid "Sequence:"
+msgstr "Серия:"
+
+#: AddSequenceWindow.cpp:75
+msgid "Number:"
+msgstr "Номер:"
+
+#: AuthorsFrame.cpp:69
+msgid "Authors"
+msgstr "Авторы"
+
+#: AuthorsFrame.cpp:74
+msgid "Translators"
+msgstr "Переводчики"
+
+#: AuthorsFrame.cpp:154
+msgid "Edit selected author"
+msgstr "Редактировать выбранного автора"
+
+#: AuthorsFrame.cpp:159
+msgid "Edit selected translator"
+msgstr "Редактировать выбранного переводчика"
+
+#: AuthorsFrame.cpp:200
+msgid "Remove selected author"
+msgstr "Удалить выбранного автора"
+
+#: AuthorsFrame.cpp:205
+msgid "Remove selected translator"
+msgstr "Удалить выбранного переводчика"
+
+#: AuthorsView.cpp:184
+msgid "Surname"
+msgstr "Фамилия"
+
+#: AuthorsView.cpp:235
+msgid "First name"
+msgstr "Имя"
+
+#: AuthorsView.cpp:281
+msgid "Middle name"
+msgstr "Отчество"
+
+#: AuthorsView.cpp:327
+msgid "Nickname"
+msgstr "Псевдоним"
+
+#: AuthorsView.cpp:373
+msgid "Home page"
+msgstr "Домашняя страница"
+
+#: AuthorsView.cpp:593
+msgid "Remove author"
+msgstr "Удалит автора"
+
+#: AuthorsView.cpp:599
+msgid "Remove translator"
+msgstr "Удалить переводчика"
+
+#: CoverFrame.cpp:76
+msgid "Cover"
+msgstr "Обложка"
+
+#: CoverFrame.cpp:98
+msgid "Open cover"
+msgstr "Открыть обложку"
+
+#: CoverFrame.cpp:107
+msgid "Clear"
+msgstr "Очистить"
+
+#: CoverFrame.cpp:141 CoverFrame.cpp:199
+msgid "All images"
+msgstr "Все изображения"
+
+#: CoverFrame.cpp:235 FilesWidget.cpp:87 FilesWidget.cpp:149
+msgid "Open"
+msgstr "Открыть"
+
+#: FilesWidget.cpp:73
+msgid "Source file:"
+msgstr "Исходный файл:"
+
+#: FilesWidget.cpp:81 FilesWidget.cpp:106 MLFBDPlugin.cpp:181
+#: MLFBDPlugin.cpp:197
+msgid "Compulsory"
+msgstr "Обязательно к заполнению"
+
+#: FilesWidget.cpp:98
+msgid "Output archive:"
+msgstr "Выходной архив:"
+
+#: FilesWidget.cpp:112
+msgid "Save as..."
+msgstr "Сохранить как..."
+
+#: FilesWidget.cpp:232 SaveArchive.cpp:88
+msgid "Save"
+msgstr "Сохранить"
+
+#: GenreFrame.cpp:57 GenreView.cpp:191
+msgid "Genre"
+msgstr "Жанр"
+
+#: GenreFrame.cpp:73
+msgid "Add genres"
+msgstr "Добавить жанры"
+
+#: GenreFrame.cpp:82
+msgid "Remove selected genre"
+msgstr "Удалить выбранный жанр"
+
+#: GenreFrame.cpp:91
+msgid "Remove all genres"
+msgstr "Удалить все жанры"
+
+#: GenreView.cpp:120
+msgid "Remove genre"
+msgstr "Удалить жанр"
+
+#: GenreView.cpp:123
+msgid "Remove all"
+msgstr "Удалить все"
+
+#: GenreView.cpp:241
+msgid "Code"
+msgstr "Код"
+
+#: MLFBDPlugin.cpp:50
+msgid "Plugin to create fbd files"
+msgstr "Плагин для создания файлов в формате fbd"
+
+#: MLFBDPlugin.cpp:85
+msgid "Files"
+msgstr "Файлы"
+
+#: MLFBDPlugin.cpp:92
+msgid "Book"
+msgstr "Книга"
+
+#: MLFBDPlugin.cpp:99
+msgid "Book's source"
+msgstr "Исходная книга"
+
+#: MLFBDPlugin.cpp:106
+msgid "XML document info"
+msgstr "Информация о XML документе"
+
+#: MLFBDPlugin.cpp:114
+msgid "Papaer book info"
+msgstr "Информация о бумажной книге"
+
+#: MLFBDPlugin.cpp:121 MLFBDPlugin.cpp:849
+msgid "Custom info"
+msgstr "Дополнительная информация"
+
+#: MLFBDPlugin.cpp:173 MLFBDPlugin.cpp:354 MLFBDPlugin.cpp:752
+msgid "Book title:"
+msgstr "Название книги:"
+
+#: MLFBDPlugin.cpp:189 MLFBDPlugin.cpp:369
+msgid "Language:"
+msgstr "Язык:"
+
+#: MLFBDPlugin.cpp:212 MLFBDPlugin.cpp:391
+msgid "Annotation:"
+msgstr "Аннотация:"
+
+#: MLFBDPlugin.cpp:279 MLFBDPlugin.cpp:458
+msgid "Key words:"
+msgstr "Ключевые слова:"
+
+#: MLFBDPlugin.cpp:294 MLFBDPlugin.cpp:473
+msgid "Date book was written:"
+msgstr "Дата создания книги:"
+
+#: MLFBDPlugin.cpp:313 MLFBDPlugin.cpp:492
+msgid "Source language:"
+msgstr "Язык оригинала:"
+
+#: MLFBDPlugin.cpp:537
+msgid "Date:"
+msgstr "Дата:"
+
+#: MLFBDPlugin.cpp:568
+msgid "Source URL:"
+msgstr "URL источника:"
+
+#: MLFBDPlugin.cpp:585
+msgid "Author of the original document (if it is conversion):"
+msgstr "Автор оригинального документа (если это производный):"
+
+#: MLFBDPlugin.cpp:601
+msgid "Document ID:"
+msgstr "ID документа:"
+
+#: MLFBDPlugin.cpp:631
+msgid "Document version:"
+msgstr "Версия документа:"
+
+#: MLFBDPlugin.cpp:648
+msgid "Document history:"
+msgstr "История документа:"
+
+#: MLFBDPlugin.cpp:661
+msgid "document creation"
+msgstr "создание документа"
+
+#: MLFBDPlugin.cpp:718
+msgid "Owner of the fb2 document copyrights:"
+msgstr "Владелец прав на fb2 файл:"
+
+#: MLFBDPlugin.cpp:767
+msgid "Publisher:"
+msgstr "Издатель:"
+
+#: MLFBDPlugin.cpp:782
+msgid "City:"
+msgstr "Город:"
+
+#: MLFBDPlugin.cpp:797
+msgid "Year:"
+msgstr "Год:"
+
+#: MLFBDPlugin.cpp:1572
+msgid "Message"
+msgstr "Сообщение"
+
+#: MLFBDPlugin.cpp:1591
+msgid "Generic error (1)!"
+msgstr "Общая ошибка(1)!"
+
+#: MLFBDPlugin.cpp:1596
+msgid "Source file has not been found!"
+msgstr "Исходный файл не найден!"
+
+#: MLFBDPlugin.cpp:1601
+msgid "Output archive path is empty!"
+msgstr "Путь к выходному архиву пуст!"
+
+#: MLFBDPlugin.cpp:1606
+msgid "Book title is empty!"
+msgstr "Название книги не задано!"
+
+#: MLFBDPlugin.cpp:1611
+msgid "Book language is empty!"
+msgstr "Язык книги не задан!"
+
+#: MLFBDPlugin.cpp:1616
+msgid "Temporary file error!"
+msgstr "Ошибка временного файла!"
+
+#: MLFBDPlugin.cpp:1621
+msgid "LibArchive error!"
+msgstr "Ошибка LibArchive!"
+
+#: MLFBDPlugin.cpp:1626
+msgid "Archive write error!"
+msgstr "Ошибка записи в архив!"
+
+#: MLFBDPlugin.cpp:1632
+msgid "All operations has been successfully completed!"
+msgstr "Все операции успешно завершены!"
+
+#: SaveArchive.cpp:54
+msgid "Archive type:"
+msgstr "Тип архива:"
+
+#: SequenceFrame.cpp:57
+msgid "Sequence"
+msgstr "Серия"
+
+#: SequenceFrame.cpp:98
+msgid "Edit selected sequence"
+msgstr "Редактировать выбранную серию"
+
+#: SequenceFrame.cpp:127
+msgid "Remove selected sequence"
+msgstr "Удалить выбранную серию"
+
+#: SequenceView.cpp:134
+msgid "Name"
+msgstr "Название"
+
+#: SequenceView.cpp:197
+msgid "Number"
+msgstr "Номер"
+
+#: SequenceView.cpp:331
+msgid "Remove sequence"
+msgstr "Удалить серию"
