@@ -3,6 +3,9 @@
 Плагин для [MyLibrary](https://github.com/ProfessorNavigator/mylibrary). Создаёт книги в формате fbd (файл книги упаковывается в архив вместе с fbd файлом, содержащем тэг `description` формата [fb2](https://github.com/gribuser/fb2)). Возможно добавление любых файлов, не только книг.
 
 ## Установка
+MLFBDPlugin может быть установлен в любую директорию операционной системы.
+Единственное обязательное требование - файл перевода (MLFBDPlugin.mo) должен находиться в директории <path_to_mylibrary_executable>/../share/locale/<language_code>/LC_MESSAGES. В противном случае в плагине будет использоваться английский язык.
+
 ### Linux
 `git clone https://github.com/ProfessorNavigator/mlfbdplugin.git` \
 `cd mlfbdplugin` \
@@ -19,7 +22,7 @@
 
 `mkdir -pv /c/MLFBDPlugin`\
 `cd /c/MLFBDPlugin` \
-`git clone https://github.com/ProfessorNavigator/mlfbdplugin.git` \
+`git clone https://altlinux.space/professornavigator/mlfbdplugin.git` \
 `cd mlfbdplugin`\
 `cmake -DCMAKE_BUILD_TYPE=Release -B ../_build`\
 `cmake --build ../_build`\
@@ -34,7 +37,7 @@
 В Windows библиотеки [MyLibrary](https://github.com/ProfessorNavigator/mylibrary) обязательно должны находиться в одной из директорий, указанных в системной переменной Path. Или MyLibrary должна быть установлена с использованием MSYS2.
 
 ## Использование
-Интерфейс MLFBDPlugin интуитивно понятен. Если у вас всё же возникли вопросы, то см. документацию по тэгу `description` формата [fb2](https://github.com/gribuser/fb2).
+После установки запустите [MyLibrary](https://github.com/ProfessorNavigator/mylibrary) и откройте окно со списком плагинов. Укажите путь до библиотеки libmlfbdplugin. Интерфейс MLFBDPlugin интуитивно понятен. Если у вас всё же возникли вопросы, то см. документацию по тэгу `description` формата [fb2](https://github.com/gribuser/fb2).
 
 ## Лицензия
 

@@ -2,6 +2,8 @@
 This is plugin for [MyLibrary](https://github.com/ProfessorNavigator/mylibrary). It creates books in fbd format (book file packed into archive along with fbd file, containing `description` tag of [fb2](https://github.com/gribuser/fb2) format).
 
 ## Installation
+MLFBDPlugin can be installed to any directory. Only compulsory condition is the following: translation file (MLFBDPlugin.mo) should be placed in <path_to_mylibrary_executable>/../share/locale/<language_code>/LC_MESSAGES. Only English language will be available otherwise.
+
 ### Linux
 `git clone https://github.com/ProfessorNavigator/mlfbdplugin.git` \
 `cd mlfbdplugin` \
@@ -18,7 +20,7 @@ You may need [MSYS2](https://www.msys2.org/) project for building and installati
 
 `mkdir -pv /c/MLFBDPlugin`\
 `cd /c/MLFBDPlugin` \
-`git clone https://github.com/ProfessorNavigator/mlfbdplugin.git` \
+`git clone https://altlinux.space/professornavigator/mlfbdplugin.git` \
 `cd mlfbdplugin`\
 `cmake -DCMAKE_BUILD_TYPE=Release -B ../_build`\
 `cmake --build ../_build`\
@@ -33,7 +35,7 @@ You need [MyLibrary](https://github.com/ProfessorNavigator/mylibrary) (version >
 [MyLibrary](https://github.com/ProfessorNavigator/mylibrary) libraries must be in one of the system paths (indicated in `Path` system variable). Another option is to install MyLibrary by MSYS2.
 
 ## Usage
-The MLFBDPlugin interface is intuitive. But if you have any questions, see [fb2](https://github.com/gribuser/fb2) `description` tag documentation.
+After installation has been completed, launch [MyLibrary](https://github.com/ProfessorNavigator/mylibrary) and open plugins window. Set full path to libmlfbdplugin, then launch plugin. The MLFBDPlugin interface is intuitive. But if you have any questions, see [fb2](https://github.com/gribuser/fb2) `description` tag documentation.
 
 ## License
 
