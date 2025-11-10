@@ -22,6 +22,8 @@
 #include <MLFBDPlugin.h>
 #include <SelfRemovingPath.h>
 #include <SequenceFrame.h>
+#include <XMLAlgorithms.h>
+#include <XMLTextEncoding.h>
 #include <chrono>
 #include <fstream>
 #include <glibmm-2.68/glibmm/dispatcher.h>
@@ -36,7 +38,7 @@
 MLFBDPlugin::MLFBDPlugin(void *af_ptr) : MLPlugin(af_ptr)
 {
   plugin_name = "MLFBDPlugin";
-  std::filesystem::path txt_domain = af->share_path();
+  std::filesystem::path txt_domain = af->sharePath();
   txt_domain /= std::filesystem::u8path("locale");
   bindtextdomain(plugin_name.c_str(), txt_domain.u8string().c_str());
   bind_textdomain_codeset(plugin_name.c_str(), "UTF-8");
@@ -133,11 +135,12 @@ MLFBDPlugin::createWindow(Gtk::Window *parent_window)
   grid->attach(*cancel, 1, 1, 1, 1);
 
   main_window->signal_close_request().connect(
-      [this] {
-        std::unique_ptr<Gtk::Window> win(main_window);
-        win->set_visible(false);
-        return true;
-      },
+      [this]
+        {
+          std::unique_ptr<Gtk::Window> win(main_window);
+          win->set_visible(false);
+          return true;
+        },
       false);
 
   main_window->present();
@@ -216,31 +219,41 @@ MLFBDPlugin::bookWidget()
   annotation->set_right_margin(5);
   annotation->set_bottom_margin(5);
   annotation->set_top_margin(5);
+  Glib::PropertyProxy<Gtk::WrapMode> wrap_mode
+      = annotation->property_wrap_mode();
+  wrap_mode.set_value(Gtk::WrapMode::WORD);
   scroll_box->append(*annotation);
 
   std::shared_ptr<Glib::Dispatcher> disp(new Glib::Dispatcher);
-  disp->connect([scroll, this] {
-    int height = scroll->get_height();
-    if(height > 0)
-      {
-        annotation->set_size_request(-1, scroll->get_height() * 0.5);
-      }
-  });
-
-  annotation->signal_realize().connect([scroll, disp] {
-    std::thread thr([scroll, disp] {
-      for(int i = 0; i <= 3; i++)
+  disp->connect(
+      [scroll, this]
         {
-          if(scroll->get_height() > 0)
+          int height = scroll->get_height();
+          if(height > 0)
             {
-              break;
+              annotation->set_size_request(-1, scroll->get_height() * 0.5);
             }
-          std::this_thread::sleep_for(std::chrono::milliseconds(5));
-        }
-      disp->emit();
-    });
-    thr.detach();
-  });
+        });
+
+  annotation->signal_realize().connect(
+      [scroll, disp]
+        {
+          std::thread thr(
+              [scroll, disp]
+                {
+                  for(int i = 0; i <= 3; i++)
+                    {
+                      if(scroll->get_height() > 0)
+                        {
+                          break;
+                        }
+                      std::this_thread::sleep_for(
+                          std::chrono::milliseconds(5));
+                    }
+                  disp->emit();
+                });
+          thr.detach();
+        });
 
   lab = Gtk::make_managed<Gtk::Label>();
   lab->set_margin(5);
@@ -372,30 +385,40 @@ MLFBDPlugin::sourceWidget()
   src_annotation->set_right_margin(5);
   src_annotation->set_bottom_margin(5);
   src_annotation->set_top_margin(5);
+  Glib::PropertyProxy<Gtk::WrapMode> wrap_mode
+      = src_annotation->property_wrap_mode();
+  wrap_mode.set_value(Gtk::WrapMode::WORD);
   scroll_box->append(*src_annotation);
 
   std::shared_ptr<Glib::Dispatcher> disp(new Glib::Dispatcher);
-  disp->connect([this, scroll] {
-    int height = scroll->get_height();
-    if(height > 0)
-      {
-        src_annotation->set_size_request(-1, scroll->get_height() * 0.5);
-      }
-  });
-  src_annotation->signal_realize().connect([scroll, disp] {
-    std::thread thr([scroll, disp] {
-      for(int i = 0; i <= 3; i++)
+  disp->connect(
+      [this, scroll]
         {
-          if(scroll->get_height() > 0)
+          int height = scroll->get_height();
+          if(height > 0)
             {
-              break;
+              src_annotation->set_size_request(-1, scroll->get_height() * 0.5);
             }
-          std::this_thread::sleep_for(std::chrono::milliseconds(5));
-        }
-      disp->emit();
-    });
-    thr.detach();
-  });
+        });
+  src_annotation->signal_realize().connect(
+      [scroll, disp]
+        {
+          std::thread thr(
+              [scroll, disp]
+                {
+                  for(int i = 0; i <= 3; i++)
+                    {
+                      if(scroll->get_height() > 0)
+                        {
+                          break;
+                        }
+                      std::this_thread::sleep_for(
+                          std::chrono::milliseconds(5));
+                    }
+                  disp->emit();
+                });
+          thr.detach();
+        });
 
   lab = Gtk::make_managed<Gtk::Label>();
   lab->set_margin(5);
@@ -502,7 +525,8 @@ MLFBDPlugin::xmlDocInfo()
       if(sz > 0)
         {
           str.resize(sz);
-          str = af->to_utf_8(str, nullptr);
+          std::string date_str;
+          XMLTextEncoding::convertToEncoding(str, date_str, "", "UTF-8");
           xml_date->set_text(Glib::ustring(str));
         }
     }
@@ -605,34 +629,44 @@ MLFBDPlugin::xmlDocInfo()
   xml_doc_history->set_top_margin(5);
   xml_doc_history->set_right_margin(5);
   xml_doc_history->set_bottom_margin(5);
+  Glib::PropertyProxy<Gtk::WrapMode> wrap_mode
+      = xml_doc_history->property_wrap_mode();
+  wrap_mode.set_value(Gtk::WrapMode::WORD);
   Glib::RefPtr<Gtk::TextBuffer> buf = Gtk::TextBuffer::create();
   buf->set_text(Glib::ustring("1.0 - ") + gettext("document creation"));
   xml_doc_history->set_buffer(buf);
   scroll_box->append(*xml_doc_history);
 
   std::shared_ptr<Glib::Dispatcher> disp(new Glib::Dispatcher);
-  disp->connect([this, scroll] {
-    int height = scroll->get_height() * 0.5;
-    if(height > 0)
-      {
-        xml_doc_history->set_size_request(-1, height);
-      }
-  });
-
-  scroll->signal_realize().connect([scroll, disp] {
-    std::thread thr([scroll, disp] {
-      for(int i = 0; i < 4; i++)
+  disp->connect(
+      [this, scroll]
         {
-          if(scroll->get_height() > 0)
+          int height = scroll->get_height() * 0.5;
+          if(height > 0)
             {
-              break;
+              xml_doc_history->set_size_request(-1, height);
             }
-          std::this_thread::sleep_for(std::chrono::milliseconds(5));
-        }
-      disp->emit();
-    });
-    thr.detach();
-  });
+        });
+
+  scroll->signal_realize().connect(
+      [scroll, disp]
+        {
+          std::thread thr(
+              [scroll, disp]
+                {
+                  for(int i = 0; i < 4; i++)
+                    {
+                      if(scroll->get_height() > 0)
+                        {
+                          break;
+                        }
+                      std::this_thread::sleep_for(
+                          std::chrono::milliseconds(5));
+                    }
+                  disp->emit();
+                });
+          thr.detach();
+        });
 
   lab = Gtk::make_managed<Gtk::Label>();
   lab->set_margin(5);
@@ -784,6 +818,9 @@ MLFBDPlugin::customInfo()
   custom_info->set_right_margin(5);
   custom_info->set_bottom_margin(5);
   custom_info->set_name("textField");
+  Glib::PropertyProxy<Gtk::WrapMode> wrap_mode
+      = custom_info->property_wrap_mode();
+  wrap_mode.set_value(Gtk::WrapMode::WORD);
   scroll_box->append(*custom_info);
 
   return scroll;
@@ -838,420 +875,885 @@ MLFBDPlugin::formWriteBuf(const std::filesystem::path &source_path,
                           const Glib::ustring &book_title_str,
                           const Glib::ustring &book_lang_str)
 {
-  std::string write_buf = "<?xml version=\"1.0\" encoding=\"utf-8\"?>";
-
-  write_buf
-      += "<FictionBook xmlns=\"http://www.gribuser.ru/xml/fictionbook/2.0\" "
-         "xmlns:l=\"http://www.w3.org/1999/xlink\">";
+  std::vector<XMLElement> elements;
+  // Header
   {
-    std::string cover_img;
-    std::string src_cover_img;
-    write_buf += "<description>";
+    XMLElement el;
+    el.element_type = XMLElement::ProgramControlElement;
+    el.element_name = "xml";
+
+    XMLElementAttribute attr;
+    attr.attribute_id = "version";
+    attr.attribute_value = "1.0";
+    el.element_attributes.emplace_back(attr);
+
+    attr = XMLElementAttribute();
+    attr.attribute_id = "encoding";
+    attr.attribute_value = "UTF-8";
+    el.element_attributes.emplace_back(attr);
+
+    elements.emplace_back(el);
+  }
+
+  XMLElement title_info;
+  title_info.element_type = XMLElement::OrdinaryElement;
+  title_info.element_name = "title-info";
+
+  // title-info
+  XMLElement cover_img;
+  {
+    // Genres
     {
-      // title-info section
-      write_buf += "<title-info>";
-      {
-        GenreFrame *gfrm = dynamic_cast<GenreFrame *>(genre_frame);
-        if(gfrm)
-          {
-            Glib::RefPtr<Gio::ListStore<GenreModelItem>> genres
-                = gfrm->getModel();
-            if(genres)
-              {
-                appendGenres(write_buf, genres);
-              }
-          }
-
-        AuthorsFrame *afrm = dynamic_cast<AuthorsFrame *>(auth_frame);
-        if(afrm)
-          {
-            Glib::RefPtr<Gio::ListStore<AuthorModelItem>> authors
-                = afrm->getModel();
-            if(authors)
-              {
-                appendAuthors(write_buf, authors, afrm->getType());
-              }
-          }
-
-        write_buf += "<book-title>";
-        write_buf += std::string(book_title_str);
-        write_buf += "</book-title>";
-
-        Glib::RefPtr<Gtk::TextBuffer> t_buf = annotation->get_buffer();
-        if(t_buf)
-          {
-            appendAnnotation(write_buf, t_buf);
-          }
-
-        Glib::ustring str = key_words->get_text();
-        if(!str.empty())
-          {
-            write_buf += "<keywords>";
-            write_buf += std::string(str);
-            write_buf += "</keywords>";
-          }
-
-        str = date->get_text();
-        if(!str.empty())
-          {
-            write_buf += "<date>";
-            write_buf += std::string(str);
-            write_buf += "</date>";
-          }
-
-        CoverFrame *cf = dynamic_cast<CoverFrame *>(cover_frame);
-        if(cf)
-          {
-            cover_img = cf->getBase64Image();
-            if(!cover_img.empty())
-              {
-                write_buf += "<coverpage>";
-                write_buf += "<image l:href=\"#cover.jpg\"/>";
-                write_buf += "</coverpage>";
-              }
-          }
-
-        write_buf += "<lang>";
-        write_buf += std::string(book_lang_str);
-        write_buf += "</lang>";
-
-        str = source_language->get_text();
-        if(!str.empty())
-          {
-            write_buf += "<src-lang>";
-            write_buf += std::string(str);
-            write_buf += "</src-lang>";
-          }
-
-        AuthorsFrame *tfrm = dynamic_cast<AuthorsFrame *>(translators_frame);
-        if(tfrm)
-          {
-            Glib::RefPtr<Gio::ListStore<AuthorModelItem>> translators
-                = tfrm->getModel();
-            if(translators)
-              {
-                appendAuthors(write_buf, translators, tfrm->getType());
-              }
-          }
-
-        SequenceFrame *sf = dynamic_cast<SequenceFrame *>(sequence_frame);
-        if(sf)
-          {
-            Glib::RefPtr<Gio::ListStore<SequenceModelItem>> sequences
-                = sf->getModel();
-            if(sequences)
-              {
-                appendSequence(write_buf, sequences);
-              }
-          }
-      }
-      write_buf += "</title-info>";
-
-      // src-title-info section
-      std::string src_write_buf;
-      {
-        GenreFrame *gfrm = dynamic_cast<GenreFrame *>(src_genre_frame);
-        if(gfrm)
-          {
-            Glib::RefPtr<Gio::ListStore<GenreModelItem>> genres
-                = gfrm->getModel();
-            if(genres)
-              {
-                appendGenres(src_write_buf, genres);
-              }
-          }
-
-        AuthorsFrame *afrm = dynamic_cast<AuthorsFrame *>(src_auth_frame);
-        if(afrm)
-          {
-            Glib::RefPtr<Gio::ListStore<AuthorModelItem>> authors
-                = afrm->getModel();
-            if(authors)
-              {
-                appendAuthors(src_write_buf, authors, afrm->getType());
-              }
-          }
-
-        Glib::ustring str = src_book_title->get_text();
-        if(!str.empty())
-          {
-            src_write_buf += "<book-title>";
-            src_write_buf += std::string(str);
-            src_write_buf += "</book-title>";
-          }
-
-        Glib::RefPtr<Gtk::TextBuffer> t_buf = src_annotation->get_buffer();
-        if(t_buf)
-          {
-            appendAnnotation(src_write_buf, t_buf);
-          }
-
-        str = src_key_words->get_text();
-        if(!str.empty())
-          {
-            src_write_buf += "<keywords>";
-            src_write_buf += std::string(str);
-            src_write_buf += "</keywords>";
-          }
-
-        str = src_date->get_text();
-        if(!str.empty())
-          {
-            src_write_buf += "<date>";
-            src_write_buf += std::string(str);
-            src_write_buf += "</date>";
-          }
-
-        CoverFrame *cf = dynamic_cast<CoverFrame *>(src_cover_frame);
-        if(cf)
-          {
-            src_cover_img = cf->getBase64Image();
-            if(!src_cover_img.empty())
-              {
-                src_write_buf += "<coverpage>";
-                src_write_buf += "<image l:href=\"#src_cover.jpg\"/>";
-                src_write_buf += "</coverpage>";
-              }
-          }
-
-        str = src_language->get_text();
-        if(!str.empty())
-          {
-            src_write_buf += "<lang>";
-            src_write_buf += std::string(str);
-            src_write_buf += "</lang>";
-          }
-
-        str = src_source_language->get_text();
-        if(!str.empty())
-          {
-            src_write_buf += "<src-lang>";
-            src_write_buf += std::string(str);
-            src_write_buf += "</src-lang>";
-          }
-
-        AuthorsFrame *tfrm
-            = dynamic_cast<AuthorsFrame *>(src_translators_frame);
-        if(tfrm)
-          {
-            Glib::RefPtr<Gio::ListStore<AuthorModelItem>> translators
-                = tfrm->getModel();
-            if(translators)
-              {
-                appendAuthors(src_write_buf, translators, tfrm->getType());
-              }
-          }
-
-        SequenceFrame *sf = dynamic_cast<SequenceFrame *>(src_sequence_frame);
-        if(sf)
-          {
-            Glib::RefPtr<Gio::ListStore<SequenceModelItem>> sequences
-                = sf->getModel();
-            if(sequences)
-              {
-                appendSequence(src_write_buf, sequences);
-              }
-          }
-      }
-
-      if(src_write_buf.size() > 0)
+      GenreFrame *gfrm = dynamic_cast<GenreFrame *>(genre_frame);
+      if(gfrm)
         {
-          write_buf += "<src-title-info>";
-          write_buf += src_write_buf;
-          write_buf += "</src-title-info>";
+          Glib::RefPtr<Gio::ListStore<GenreModelItem>> genres
+              = gfrm->getModel();
+          if(genres)
+            {
+              appendGenres(title_info.elements, genres);
+            }
         }
+    }
 
-      // document-info section
-      std::string doc_info_buf;
-      {
-        AuthorsFrame *afrm = dynamic_cast<AuthorsFrame *>(xml_author_frame);
-        if(afrm)
-          {
-            Glib::RefPtr<Gio::ListStore<AuthorModelItem>> authors
-                = afrm->getModel();
-            if(authors)
-              {
-                appendAuthors(doc_info_buf, authors, AuthorsFrame::Authors);
-              }
-          }
-
-        doc_info_buf += "<program-used>";
-        doc_info_buf += "MLFBDPlugin";
-        doc_info_buf += "</program-used>";
-
-        Glib::ustring str = xml_date->get_text();
-        if(!str.empty())
-          {
-            doc_info_buf += "<date>";
-            doc_info_buf += std::string(str);
-            doc_info_buf += "</date>";
-          }
-
-        str = xml_src_url->get_text();
-        if(!str.empty())
-          {
-            doc_info_buf += "<src-url>";
-            doc_info_buf += std::string(str);
-            doc_info_buf += "</src-url>";
-          }
-
-        str = xml_orig_author->get_text();
-        if(!str.empty())
-          {
-            doc_info_buf += "<src-ocr>";
-            doc_info_buf += std::string(str);
-            doc_info_buf += "</src-ocr>";
-          }
-
-        str = xml_doc_id->get_text();
-        if(!str.empty())
-          {
-            doc_info_buf += "<id>";
-            doc_info_buf += std::string(str);
-            doc_info_buf += "</id>";
-          }
-
-        str = xml_doc_version->get_text();
-        if(!str.empty())
-          {
-            doc_info_buf += "<version>";
-            doc_info_buf += std::string(str);
-            doc_info_buf += "</version>";
-          }
-
-        Glib::RefPtr<Gtk::TextBuffer> t_buf = xml_doc_history->get_buffer();
-        if(t_buf)
-          {
-            str = t_buf->get_text();
-            if(!str.empty())
-              {
-                doc_info_buf += "<history>";
-                doc_info_buf += std::string(str);
-                doc_info_buf += "</history>";
-              }
-          }
-
-        str = xml_doc_copyright->get_text();
-        if(!str.empty())
-          {
-            doc_info_buf += "<publisher>";
-            doc_info_buf += std::string(str);
-            doc_info_buf += "</publisher>";
-          }
-      }
-
-      if(doc_info_buf.size() > 0)
+    // Authors
+    {
+      AuthorsFrame *afrm = dynamic_cast<AuthorsFrame *>(auth_frame);
+      if(afrm)
         {
-          write_buf += "<document-info>";
-          write_buf += doc_info_buf;
-          write_buf += "</document-info>";
+          Glib::RefPtr<Gio::ListStore<AuthorModelItem>> authors
+              = afrm->getModel();
+          if(authors)
+            {
+              appendAuthors(title_info.elements, authors, afrm->getType());
+            }
         }
+    }
 
-      // publish-info section
-      std::string publish_info_buf;
-      {
-        Glib::ustring str = paper_book_title->get_text();
-        if(!str.empty())
-          {
-            publish_info_buf += "<book-name>";
-            publish_info_buf += std::string(str);
-            publish_info_buf += "</book-name>";
-          }
+    // Book title
+    {
+      XMLElement content;
+      content.element_type = XMLElement::ElementContent;
+      content.content = std::string(book_title_str);
 
-        str = paper_book_publisher->get_text();
-        if(!str.empty())
-          {
-            publish_info_buf += "<publisher>";
-            publish_info_buf += std::string(str);
-            publish_info_buf += "</publisher>";
-          }
+      XMLElement el;
+      el.element_type = XMLElement::OrdinaryElement;
+      el.element_name = "book-title";
+      el.elements.emplace_back(content);
 
-        str = paper_book_city->get_text();
-        if(!str.empty())
-          {
-            publish_info_buf += "<city>";
-            publish_info_buf += std::string(str);
-            publish_info_buf += "</city>";
-          }
+      title_info.elements.emplace_back(el);
+    }
 
-        str = paper_book_city->get_text();
-        if(!str.empty())
-          {
-            std::string buf(str);
-            buf.erase(std::remove_if(buf.begin(), buf.end(),
-                                     [](const char &el) {
-                                       if(el >= '0' && el <= '9')
-                                         {
-                                           return false;
-                                         }
-                                       return true;
-                                     }),
-                      buf.end());
-            if(!buf.empty())
-              {
-                publish_info_buf += "<year>";
-                publish_info_buf += buf;
-                publish_info_buf += "</year>";
-              }
-          }
-
-        str = paper_book_isbn->get_text();
-        if(!str.empty())
-          {
-            publish_info_buf += "<isbn>";
-            publish_info_buf += std::string(str);
-            publish_info_buf += "</isbn>";
-          }
-
-        SequenceFrame *sf = dynamic_cast<SequenceFrame *>(paper_book_sequence);
-        if(sf)
-          {
-            Glib::RefPtr<Gio::ListStore<SequenceModelItem>> sequences
-                = sf->getModel();
-            if(sequences)
-              {
-                appendSequence(publish_info_buf, sequences);
-              }
-          }
-      }
-      if(publish_info_buf.size() > 0)
+    // Annotation
+    {
+      Glib::RefPtr<Gtk::TextBuffer> t_buf = annotation->get_buffer();
+      if(t_buf)
         {
-          write_buf += "<publish-info>";
-          write_buf += publish_info_buf;
-          write_buf += "</publish-info>";
+          appendAnnotation(title_info.elements, t_buf);
         }
+    }
 
-      // custom-info section
-      Glib::RefPtr<Gtk::TextBuffer> t_buf = custom_info->get_buffer();
+    // Keywords
+    {
+      Glib::ustring str = key_words->get_text();
+      if(!str.empty())
+        {
+          XMLElement content;
+          content.element_type = XMLElement::ElementContent;
+          content.content = std::string(str);
+
+          XMLElement el;
+          el.element_type = XMLElement::OrdinaryElement;
+          el.element_name = "keywords";
+          el.elements.emplace_back(content);
+
+          title_info.elements.emplace_back(el);
+        }
+    }
+
+    // Date
+    {
+      Glib::ustring str = date->get_text();
+      if(!str.empty())
+        {
+          XMLElement content;
+          content.element_type = XMLElement::ElementContent;
+          content.content = std::string(str);
+
+          XMLElement el;
+          el.element_type = XMLElement::OrdinaryElement;
+          el.element_name = "date";
+          el.elements.emplace_back(content);
+
+          title_info.elements.emplace_back(el);
+        }
+    }
+
+    // Cover
+    {
+      CoverFrame *cf = dynamic_cast<CoverFrame *>(cover_frame);
+      if(cf)
+        {
+          XMLElement binary_content;
+          binary_content.element_type = XMLElement::ElementContent;
+          binary_content.content = cf->getBase64Image();
+          if(!binary_content.content.empty())
+            {
+              cover_img.element_type = XMLElement::OrdinaryElement;
+              cover_img.element_name = "binary";
+
+              XMLElementAttribute attr;
+              attr.attribute_id = "id";
+              attr.attribute_value = "cover.jpg";
+              cover_img.element_attributes.emplace_back(attr);
+
+              attr = XMLElementAttribute();
+              attr.attribute_id = "content-type";
+              attr.attribute_value = "image/jpeg";
+              cover_img.element_attributes.emplace_back(attr);
+
+              cover_img.elements.emplace_back(binary_content);
+
+              XMLElement img;
+              img.element_type = XMLElement::OrdinaryElement;
+              img.element_name = "image";
+              img.empty = true;
+
+              attr = XMLElementAttribute();
+              attr.attribute_id = "l:href";
+              attr.attribute_value = "#cover.jpg";
+              img.element_attributes.emplace_back(attr);
+
+              XMLElement el;
+              el.element_type = XMLElement::OrdinaryElement;
+              el.element_name = "coverpage";
+              el.elements.emplace_back(img);
+
+              title_info.elements.emplace_back(el);
+            }
+        }
+    }
+
+    // Language
+    {
+      XMLElement content;
+      content.element_type = XMLElement::ElementContent;
+      content.content = std::string(book_lang_str);
+
+      XMLElement el;
+      el.element_type = XMLElement::OrdinaryElement;
+      el.element_name = "lang";
+      el.elements.emplace_back(content);
+
+      title_info.elements.emplace_back(el);
+    }
+
+    // Source language
+    {
+      Glib::ustring str = source_language->get_text();
+      if(!str.empty())
+        {
+          XMLElement content;
+          content.element_type = XMLElement::ElementContent;
+          content.content = std::string(str);
+
+          XMLElement el;
+          el.element_type = XMLElement::OrdinaryElement;
+          el.element_name = "src-lang";
+          el.elements.emplace_back(content);
+
+          title_info.elements.emplace_back(el);
+        }
+    }
+
+    // Translators
+    {
+      AuthorsFrame *tfrm = dynamic_cast<AuthorsFrame *>(translators_frame);
+      if(tfrm)
+        {
+          Glib::RefPtr<Gio::ListStore<AuthorModelItem>> translators
+              = tfrm->getModel();
+          if(translators)
+            {
+              appendAuthors(title_info.elements, translators, tfrm->getType());
+            }
+        }
+    }
+
+    // Sequence
+    {
+      SequenceFrame *sf = dynamic_cast<SequenceFrame *>(sequence_frame);
+      if(sf)
+        {
+          Glib::RefPtr<Gio::ListStore<SequenceModelItem>> sequences
+              = sf->getModel();
+          if(sequences)
+            {
+              appendSequence(title_info.elements, sequences);
+            }
+        }
+    }
+  }
+
+  XMLElement src_title_info;
+  src_title_info.element_type = XMLElement::OrdinaryElement;
+  src_title_info.element_name = "src-title-info";
+
+  // src-title-info
+  XMLElement src_cover_img;
+  {
+    // Genre
+    {
+      GenreFrame *gfrm = dynamic_cast<GenreFrame *>(src_genre_frame);
+      if(gfrm)
+        {
+          Glib::RefPtr<Gio::ListStore<GenreModelItem>> genres
+              = gfrm->getModel();
+          if(genres)
+            {
+              appendGenres(src_title_info.elements, genres);
+            }
+        }
+    }
+
+    // Authors
+    {
+      AuthorsFrame *afrm = dynamic_cast<AuthorsFrame *>(src_auth_frame);
+      if(afrm)
+        {
+          Glib::RefPtr<Gio::ListStore<AuthorModelItem>> authors
+              = afrm->getModel();
+          if(authors)
+            {
+              appendAuthors(src_title_info.elements, authors, afrm->getType());
+            }
+        }
+    }
+
+    // Book title
+    {
+      Glib::ustring str = src_book_title->get_text();
+      if(!str.empty())
+        {
+          XMLElement content;
+          content.element_type = XMLElement::ElementContent;
+          content.content = std::string(str);
+
+          XMLElement el;
+          el.element_type = XMLElement::OrdinaryElement;
+          el.element_name = "book-title";
+          el.elements.emplace_back(content);
+
+          src_title_info.elements.emplace_back(el);
+        }
+    }
+
+    // Annotation
+    {
+      Glib::RefPtr<Gtk::TextBuffer> t_buf = src_annotation->get_buffer();
+      if(t_buf)
+        {
+          appendAnnotation(src_title_info.elements, t_buf);
+        }
+    }
+
+    // Keywords
+    {
+      Glib::ustring str = src_key_words->get_text();
+      if(!str.empty())
+        {
+          XMLElement content;
+          content.element_type = XMLElement::ElementContent;
+          content.content = std::string(str);
+
+          XMLElement el;
+          el.element_type = XMLElement::OrdinaryElement;
+          el.element_name = "keywords";
+          el.elements.emplace_back(content);
+
+          src_title_info.elements.emplace_back(el);
+        }
+    }
+
+    // Date
+    {
+      Glib::ustring str = src_date->get_text();
+      if(!str.empty())
+        {
+          XMLElement content;
+          content.element_type = XMLElement::ElementContent;
+          content.content = std::string(str);
+
+          XMLElement el;
+          el.element_type = XMLElement::OrdinaryElement;
+          el.element_name = "date";
+          el.elements.emplace_back(content);
+
+          src_title_info.elements.emplace_back(el);
+        }
+    }
+
+    // Cover
+    {
+      CoverFrame *cf = dynamic_cast<CoverFrame *>(src_cover_frame);
+      if(cf)
+        {
+          XMLElement binary_content;
+          binary_content.element_type = XMLElement::ElementContent;
+          binary_content.content = cf->getBase64Image();
+          if(!binary_content.content.empty())
+            {
+              src_cover_img.element_type = XMLElement::OrdinaryElement;
+              src_cover_img.element_name = "binary";
+
+              XMLElementAttribute attr;
+              attr.attribute_id = "id";
+              attr.attribute_value = "src_cover.jpg";
+              src_cover_img.element_attributes.emplace_back(attr);
+
+              attr = XMLElementAttribute();
+              attr.attribute_id = "content-type";
+              attr.attribute_value = "image/jpeg";
+              src_cover_img.element_attributes.emplace_back(attr);
+
+              src_cover_img.elements.emplace_back(binary_content);
+
+              XMLElement img;
+              img.element_type = XMLElement::OrdinaryElement;
+              img.element_name = "image";
+              img.empty = true;
+
+              attr = XMLElementAttribute();
+              attr.attribute_id = "l:href";
+              attr.attribute_value = "#src_cover.jpg";
+              img.element_attributes.emplace_back(attr);
+
+              XMLElement el;
+              el.element_type = XMLElement::OrdinaryElement;
+              el.element_name = "coverpage";
+              el.elements.emplace_back(img);
+
+              src_title_info.elements.emplace_back(el);
+            }
+        }
+    }
+
+    // Language
+    {
+      Glib::ustring str = src_language->get_text();
+      if(!str.empty())
+        {
+          XMLElement content;
+          content.element_type = XMLElement::ElementContent;
+          content.content = std::string(str);
+
+          XMLElement el;
+          el.element_type = XMLElement::OrdinaryElement;
+          el.element_name = "lang";
+          el.elements.emplace_back(content);
+
+          src_title_info.elements.emplace_back(el);
+        }
+    }
+
+    // Source language
+    {
+      Glib::ustring str = src_source_language->get_text();
+      if(!str.empty())
+        {
+          XMLElement content;
+          content.element_type = XMLElement::ElementContent;
+          content.content = std::string(str);
+
+          XMLElement el;
+          el.element_type = XMLElement::OrdinaryElement;
+          el.element_name = "src-lang";
+          el.elements.emplace_back(content);
+
+          src_title_info.elements.emplace_back(el);
+        }
+    }
+
+    // Translator
+    {
+      AuthorsFrame *tfrm = dynamic_cast<AuthorsFrame *>(src_translators_frame);
+      if(tfrm)
+        {
+          Glib::RefPtr<Gio::ListStore<AuthorModelItem>> translators
+              = tfrm->getModel();
+          if(translators)
+            {
+              appendAuthors(src_title_info.elements, translators,
+                            tfrm->getType());
+            }
+        }
+    }
+
+    // Sequence
+    {
+      SequenceFrame *sf = dynamic_cast<SequenceFrame *>(src_sequence_frame);
+      if(sf)
+        {
+          Glib::RefPtr<Gio::ListStore<SequenceModelItem>> sequences
+              = sf->getModel();
+          if(sequences)
+            {
+              appendSequence(src_title_info.elements, sequences);
+            }
+        }
+    }
+  }
+
+  XMLElement document_info;
+  document_info.element_type = XMLElement::OrdinaryElement;
+  document_info.element_name = "document-info";
+
+  // document-info
+  {
+    // Author
+    {
+      AuthorsFrame *afrm = dynamic_cast<AuthorsFrame *>(xml_author_frame);
+      if(afrm)
+        {
+          Glib::RefPtr<Gio::ListStore<AuthorModelItem>> authors
+              = afrm->getModel();
+          if(authors)
+            {
+              appendAuthors(document_info.elements, authors,
+                            AuthorsFrame::Authors);
+            }
+        }
+    }
+
+    // Program used
+    {
+      XMLElement content;
+      content.element_type = XMLElement::ElementContent;
+      content.content = "MLFBDPlugin";
+
+      XMLElement el;
+      el.element_type = XMLElement::OrdinaryElement;
+      el.element_name = "program-used";
+      el.elements.emplace_back(content);
+
+      document_info.elements.emplace_back(el);
+    }
+
+    // Date
+    {
+      Glib::ustring str = xml_date->get_text();
+      if(!str.empty())
+        {
+          XMLElement content;
+          content.element_type = XMLElement::ElementContent;
+          content.content = std::string(str);
+
+          XMLElement el;
+          el.element_type = XMLElement::OrdinaryElement;
+          el.element_name = "date";
+          el.elements.emplace_back(content);
+
+          document_info.elements.emplace_back(el);
+        }
+    }
+
+    // Source url
+    {
+      Glib::ustring str = xml_src_url->get_text();
+      if(!str.empty())
+        {
+          XMLElement content;
+          content.element_type = XMLElement::ElementContent;
+          content.content = std::string(str);
+
+          XMLElement el;
+          el.element_type = XMLElement::OrdinaryElement;
+          el.element_name = "src-url";
+          el.elements.emplace_back(content);
+
+          document_info.elements.emplace_back(el);
+        }
+    }
+
+    // OCR
+    {
+      Glib::ustring str = xml_orig_author->get_text();
+      if(!str.empty())
+        {
+          XMLElement content;
+          content.element_type = XMLElement::ElementContent;
+          content.content = std::string(str);
+
+          XMLElement el;
+          el.element_type = XMLElement::OrdinaryElement;
+          el.element_name = "src-ocr";
+          el.elements.emplace_back(content);
+
+          document_info.elements.emplace_back(el);
+        }
+    }
+
+    // ID
+    {
+      Glib::ustring str = xml_doc_id->get_text();
+      if(!str.empty())
+        {
+          XMLElement content;
+          content.element_type = XMLElement::ElementContent;
+          content.content = std::string(str);
+
+          XMLElement el;
+          el.element_type = XMLElement::OrdinaryElement;
+          el.element_name = "id";
+          el.elements.emplace_back(content);
+
+          document_info.elements.emplace_back(el);
+        }
+    }
+
+    // Version
+    {
+      Glib::ustring str = xml_doc_version->get_text();
+      if(!str.empty())
+        {
+          XMLElement content;
+          content.element_type = XMLElement::ElementContent;
+          content.content = std::string(str);
+
+          XMLElement el;
+          el.element_type = XMLElement::OrdinaryElement;
+          el.element_name = "version";
+          el.elements.emplace_back(content);
+
+          document_info.elements.emplace_back(el);
+        }
+    }
+
+    // History
+    {
+      Glib::RefPtr<Gtk::TextBuffer> t_buf = xml_doc_history->get_buffer();
       if(t_buf)
         {
           Glib::ustring str = t_buf->get_text();
           if(!str.empty())
             {
-              write_buf += "<custom-info>";
-              write_buf += std::string(str);
-              write_buf += "</custom-info>";
+
+              XMLElement el;
+              el.element_type = XMLElement::OrdinaryElement;
+              el.element_name = "history";
+
+              std::string::size_type n_beg = 0;
+              std::string::size_type n_end;
+              std::string find_str("\n");
+              std::string annot(str);
+              bool found_n = false;
+              for(;;)
+                {
+                  n_end = annot.find(find_str, n_beg);
+                  if(n_end == std::string::npos)
+                    {
+                      XMLElement content;
+                      content.element_type = XMLElement::ElementContent;
+                      std::copy(annot.begin() + n_beg, annot.end(),
+                                std::back_inserter(content.content));
+                      if(!content.content.empty())
+                        {
+                          if(found_n)
+                            {
+                              XMLElement p;
+                              p.element_type = XMLElement::OrdinaryElement;
+                              p.element_name = "p";
+                              p.elements.emplace_back(content);
+
+                              el.elements.emplace_back(p);
+                            }
+                          else
+                            {
+                              el.elements.emplace_back(content);
+                            }
+                        }
+                      break;
+                    }
+                  found_n = true;
+                  XMLElement content;
+                  content.element_type = XMLElement::ElementContent;
+                  std::copy(annot.begin() + n_beg, annot.begin() + n_end,
+                            std::back_inserter(content.content));
+
+                  if(!content.content.empty())
+                    {
+                      XMLElement p;
+                      p.element_type = XMLElement::OrdinaryElement;
+                      p.element_name = "p";
+                      p.elements.emplace_back(content);
+
+                      el.elements.emplace_back(p);
+                    }
+                  n_beg = n_end + find_str.size();
+                }
+              document_info.elements.emplace_back(el);
             }
         }
     }
-    write_buf += "</description>";
 
-    if(!cover_img.empty())
+    // Publisher
+    {
+      Glib::ustring str = xml_doc_copyright->get_text();
+      if(!str.empty())
+        {
+          XMLElement content;
+          content.element_type = XMLElement::ElementContent;
+          content.content = std::string(str);
+
+          XMLElement el;
+          el.element_type = XMLElement::OrdinaryElement;
+          el.element_name = "publisher";
+          el.elements.emplace_back(content);
+
+          document_info.elements.emplace_back(el);
+        }
+    }
+  }
+
+  XMLElement publish_info;
+  publish_info.element_type = XMLElement::OrdinaryElement;
+  publish_info.element_name = "publish-info";
+
+  // publish-info
+  {
+    // Book name
+    {
+      Glib::ustring str = paper_book_title->get_text();
+      if(!str.empty())
+        {
+          XMLElement content;
+          content.element_type = XMLElement::ElementContent;
+          content.content = std::string(str);
+
+          XMLElement el;
+          el.element_type = XMLElement::OrdinaryElement;
+          el.element_name = "book-name";
+          el.elements.emplace_back(content);
+
+          publish_info.elements.emplace_back(el);
+        }
+    }
+
+    // Publisher
+    {
+      Glib::ustring str = paper_book_publisher->get_text();
+      if(!str.empty())
+        {
+          XMLElement content;
+          content.element_type = XMLElement::ElementContent;
+          content.content = std::string(str);
+
+          XMLElement el;
+          el.element_type = XMLElement::OrdinaryElement;
+          el.element_name = "publisher";
+          el.elements.emplace_back(content);
+
+          publish_info.elements.emplace_back(el);
+        }
+    }
+
+    // City
+    {
+      Glib::ustring str = paper_book_city->get_text();
+      if(!str.empty())
+        {
+          XMLElement content;
+          content.element_type = XMLElement::ElementContent;
+          content.content = std::string(str);
+
+          XMLElement el;
+          el.element_type = XMLElement::OrdinaryElement;
+          el.element_name = "city";
+          el.elements.emplace_back(content);
+
+          publish_info.elements.emplace_back(el);
+        }
+    }
+
+    // Year
+    {
+      Glib::ustring str = paper_book_year->get_text();
+      if(!str.empty())
+        {
+          std::string buf(str);
+          buf.erase(std::remove_if(buf.begin(), buf.end(),
+                                   [](const char &el)
+                                     {
+                                       if(el <= '0' || el >= '9')
+                                         {
+                                           return true;
+                                         }
+                                       return false;
+                                     }),
+                    buf.end());
+          if(!buf.empty())
+            {
+              XMLElement content;
+              content.element_type = XMLElement::ElementContent;
+              content.content = buf;
+
+              XMLElement el;
+              el.element_type = XMLElement::OrdinaryElement;
+              el.element_name = "year";
+              el.elements.emplace_back(content);
+
+              publish_info.elements.emplace_back(el);
+            }
+        }
+    }
+
+    // ISBN
+    {
+      Glib::ustring str = paper_book_isbn->get_text();
+      if(!str.empty())
+        {
+          XMLElement content;
+          content.element_type = XMLElement::ElementContent;
+          content.content = std::string(str);
+
+          XMLElement el;
+          el.element_type = XMLElement::OrdinaryElement;
+          el.element_name = "isbn";
+          el.elements.emplace_back(content);
+
+          publish_info.elements.emplace_back(el);
+        }
+    }
+
+    // Sequence
+    {
+      SequenceFrame *sf = dynamic_cast<SequenceFrame *>(paper_book_sequence);
+      if(sf)
+        {
+          Glib::RefPtr<Gio::ListStore<SequenceModelItem>> sequences
+              = sf->getModel();
+          if(sequences)
+            {
+              appendSequence(publish_info.elements, sequences);
+            }
+        }
+    }
+  }
+
+  XMLElement custom_info_el;
+  custom_info_el.element_type = XMLElement::OrdinaryElement;
+  custom_info_el.element_name = "custom-info";
+  // Custom info
+  {
+    Glib::RefPtr<Gtk::TextBuffer> t_buf = custom_info->get_buffer();
+    if(t_buf)
       {
-        write_buf += "<binary id=\"cover.jpg\" content-type=\"image/jpeg\">";
-        write_buf += cover_img;
-        write_buf += "</binary>";
-      }
-    if(!src_cover_img.empty())
-      {
-        write_buf
-            += "<binary id=\"src_cover.jpg\" content-type=\"image/jpeg\">";
-        write_buf += src_cover_img;
-        write_buf += "</binary>";
+        Glib::ustring str = t_buf->get_text();
+        if(!str.empty())
+          {
+            std::string::size_type n_beg = 0;
+            std::string::size_type n_end;
+            std::string find_str("\n");
+            std::string annot(str);
+            bool found_n = false;
+            for(;;)
+              {
+                n_end = annot.find(find_str, n_beg);
+                if(n_end == std::string::npos)
+                  {
+                    XMLElement content;
+                    content.element_type = XMLElement::ElementContent;
+                    std::copy(annot.begin() + n_beg, annot.end(),
+                              std::back_inserter(content.content));
+                    if(!content.content.empty())
+                      {
+                        if(found_n)
+                          {
+                            XMLElement p;
+                            p.element_type = XMLElement::OrdinaryElement;
+                            p.element_name = "p";
+                            p.elements.emplace_back(content);
+
+                            custom_info_el.elements.emplace_back(p);
+                          }
+                        else
+                          {
+                            custom_info_el.elements.emplace_back(content);
+                          }
+                      }
+                    break;
+                  }
+                found_n = true;
+                XMLElement content;
+                content.element_type = XMLElement::ElementContent;
+                std::copy(annot.begin() + n_beg, annot.begin() + n_end,
+                          std::back_inserter(content.content));
+
+                if(!content.content.empty())
+                  {
+                    XMLElement p;
+                    p.element_type = XMLElement::OrdinaryElement;
+                    p.element_name = "p";
+                    p.elements.emplace_back(content);
+
+                    custom_info_el.elements.emplace_back(p);
+                  }
+                n_beg = n_end + find_str.size();
+              }
+          }
       }
   }
-  write_buf += "</FictionBook>";
 
+  // Description
+  XMLElement description;
+  description.element_type = XMLElement::OrdinaryElement;
+  description.element_name = "description";
+  description.elements.emplace_back(title_info);
+  if(src_title_info.elements.size() > 0)
+    {
+      description.elements.emplace_back(src_title_info);
+    }
+  if(document_info.elements.size() > 0)
+    {
+      description.elements.emplace_back(document_info);
+    }
+  if(publish_info.elements.size() > 0)
+    {
+      description.elements.emplace_back(publish_info);
+    }
+  if(custom_info_el.elements.size() > 0)
+    {
+      description.elements.emplace_back(custom_info_el);
+    }
+
+  // FictionBook
+  XMLElement fiction_book;
+  fiction_book.element_type = XMLElement::OrdinaryElement;
+  fiction_book.element_name = "FictionBook";
+  {
+    XMLElementAttribute attr;
+    attr.attribute_id = "xmlns";
+    attr.attribute_value = "http://www.gribuser.ru/xml/fictionbook/2.0";
+    fiction_book.element_attributes.emplace_back(attr);
+
+    attr = XMLElementAttribute();
+    attr.attribute_id = "xmlns:l";
+    attr.attribute_value = "http://www.w3.org/1999/xlink";
+    fiction_book.element_attributes.emplace_back(attr);
+  }
+  fiction_book.elements.emplace_back(description);
+  if(cover_img.elements.size() > 0)
+    {
+      fiction_book.elements.emplace_back(cover_img);
+    }
+  if(src_cover_img.elements.size() > 0)
+    {
+      fiction_book.elements.emplace_back(src_cover_img);
+    }
+  elements.emplace_back(fiction_book);
+
+  std::string write_buf;
+  XMLAlgorithms::writeXML(elements, write_buf);
   saveResult(source_path, archive_path, write_buf);
 }
 
@@ -1260,7 +1762,7 @@ MLFBDPlugin::saveResult(const std::filesystem::path &source_path,
                         const std::filesystem::path &archive_path,
                         const std::string &write_buf)
 {
-  SelfRemovingPath srp(af->temp_path());
+  SelfRemovingPath srp(af->tempPath());
   srp.path /= std::filesystem::u8path(af->randomFileName());
   std::fstream f;
   f.open(srp.path, std::ios_base::out | std::ios_base::binary);
@@ -1303,7 +1805,7 @@ MLFBDPlugin::saveResult(const std::filesystem::path &source_path,
 
 void
 MLFBDPlugin::appendGenres(
-    std::string &write_buf,
+    std::vector<XMLElement> &elements,
     const Glib::RefPtr<Gio::ListStore<GenreModelItem>> &genres)
 {
   guint n_itms = genres->get_n_items();
@@ -1312,16 +1814,24 @@ MLFBDPlugin::appendGenres(
       for(guint i = 0; i < n_itms; i++)
         {
           Glib::RefPtr<GenreModelItem> item = genres->get_item(i);
-          write_buf += "<genre>";
-          write_buf += std::string(item->genre_code);
-          write_buf += "</genre>";
+
+          XMLElement content;
+          content.element_type = XMLElement::ElementContent;
+          content.content = std::string(item->genre_code);
+
+          XMLElement el;
+          el.element_type = XMLElement::OrdinaryElement;
+          el.element_name = "genre";
+          el.elements.emplace_back(content);
+
+          elements.emplace_back(el);
         }
     }
 }
 
 void
 MLFBDPlugin::appendAuthors(
-    std::string &write_buf,
+    std::vector<XMLElement> &elements,
     const Glib::RefPtr<Gio::ListStore<AuthorModelItem>> &authors,
     const AuthorsFrame::Type &type)
 {
@@ -1330,146 +1840,187 @@ MLFBDPlugin::appendAuthors(
     {
       for(guint i = 0; i < n_itms; i++)
         {
+          XMLElement el;
+          el.element_type = XMLElement::OrdinaryElement;
           Glib::RefPtr<AuthorModelItem> item = authors->get_item(i);
           switch(type)
             {
             case AuthorsFrame::Authors:
               {
-                write_buf += "<author>";
+                el.element_name = "author";
                 break;
               }
             case AuthorsFrame::Translators:
               {
-                write_buf += "<translator>";
+                el.element_name = "translator";
                 break;
               }
             }
 
           if(!item->first_name.empty())
             {
-              write_buf += "<first-name>";
-              write_buf += std::string(item->first_name);
-              write_buf += "</first-name>";
+              XMLElement content;
+              content.element_type = XMLElement::ElementContent;
+              content.content = std::string(item->first_name);
+
+              XMLElement sub_el;
+              sub_el.element_type = XMLElement::OrdinaryElement;
+              sub_el.element_name = "first-name";
+              sub_el.elements.emplace_back(content);
+
+              el.elements.emplace_back(sub_el);
             }
           if(!item->middle_name.empty())
             {
-              write_buf += "<middle-name>";
-              write_buf += std::string(item->middle_name);
-              write_buf += "</middle-name>";
+              XMLElement content;
+              content.element_type = XMLElement::ElementContent;
+              content.content = std::string(item->middle_name);
+
+              XMLElement sub_el;
+              sub_el.element_type = XMLElement::OrdinaryElement;
+              sub_el.element_name = "middle-name";
+              sub_el.elements.emplace_back(content);
+
+              el.elements.emplace_back(sub_el);
             }
           if(!item->surname.empty())
             {
-              write_buf += "<last-name>";
-              write_buf += std::string(item->surname);
-              write_buf += "</last-name>";
+              XMLElement content;
+              content.element_type = XMLElement::ElementContent;
+              content.content = std::string(item->surname);
+
+              XMLElement sub_el;
+              sub_el.element_type = XMLElement::OrdinaryElement;
+              sub_el.element_name = "last-name";
+              sub_el.elements.emplace_back(content);
+
+              el.elements.emplace_back(sub_el);
             }
           if(!item->nickname.empty())
             {
-              write_buf += "<nickname>";
-              write_buf += std::string(item->nickname);
-              write_buf += "</nickname>";
+              XMLElement content;
+              content.element_type = XMLElement::ElementContent;
+              content.content = std::string(item->nickname);
+
+              XMLElement sub_el;
+              sub_el.element_type = XMLElement::OrdinaryElement;
+              sub_el.element_name = "nickname";
+              sub_el.elements.emplace_back(content);
+
+              el.elements.emplace_back(sub_el);
             }
           if(!item->home_page.empty())
             {
-              write_buf += "<home-page>";
-              write_buf += std::string(item->home_page);
-              write_buf += "</home-page>";
+              XMLElement content;
+              content.element_type = XMLElement::ElementContent;
+              content.content = std::string(item->home_page);
+
+              XMLElement sub_el;
+              sub_el.element_type = XMLElement::OrdinaryElement;
+              sub_el.element_name = "home-page";
+              sub_el.elements.emplace_back(content);
+
+              el.elements.emplace_back(sub_el);
             }
           if(!item->email.empty())
             {
-              write_buf += "<email>";
-              write_buf += std::string(item->email);
-              write_buf += "</email>";
+              XMLElement content;
+              content.element_type = XMLElement::ElementContent;
+              content.content = std::string(item->email);
+
+              XMLElement sub_el;
+              sub_el.element_type = XMLElement::OrdinaryElement;
+              sub_el.element_name = "email";
+              sub_el.elements.emplace_back(content);
+
+              el.elements.emplace_back(sub_el);
             }
           if(!item->id.empty())
             {
-              write_buf += "<id>";
-              write_buf += std::string(item->id);
-              write_buf += "</id>";
+              XMLElement content;
+              content.element_type = XMLElement::ElementContent;
+              content.content = std::string(item->id);
+
+              XMLElement sub_el;
+              sub_el.element_type = XMLElement::OrdinaryElement;
+              sub_el.element_name = "id";
+              sub_el.elements.emplace_back(content);
+
+              el.elements.emplace_back(sub_el);
             }
-          switch(type)
-            {
-            case AuthorsFrame::Authors:
-              {
-                write_buf += "</author>";
-                break;
-              }
-            case AuthorsFrame::Translators:
-              {
-                write_buf += "</translator>";
-                break;
-              }
-            }
+
+          elements.emplace_back(el);
         }
     }
 }
 
 void
-MLFBDPlugin::appendAnnotation(std::string &write_buf,
+MLFBDPlugin::appendAnnotation(std::vector<XMLElement> &elements,
                               const Glib::RefPtr<Gtk::TextBuffer> &t_buf)
 {
   std::string annot(t_buf->get_text());
   if(!annot.empty())
     {
-      std::string find_str = "\n";
-      std::string p_beg = "<p>";
-      std::string p_end = "</p>";
-      std::string::size_type n = 0;
-      bool found = false;
+      XMLElement annotation;
+      annotation.element_type = XMLElement::OrdinaryElement;
+      annotation.element_name = "annotation";
+
+      std::string::size_type n_beg = 0;
+      std::string::size_type n_end;
+      std::string find_str("\n");
+      bool found_n = false;
       for(;;)
         {
-          n = annot.find(find_str, n);
-          if(n == std::string::npos)
+          n_end = annot.find(find_str, n_beg);
+          if(n_end == std::string::npos)
             {
-              if(found)
+              XMLElement content;
+              content.element_type = XMLElement::ElementContent;
+              std::copy(annot.begin() + n_beg, annot.end(),
+                        std::back_inserter(content.content));
+              if(!content.content.empty())
                 {
-                  if(*annot.rbegin() != '>')
+                  if(found_n)
                     {
-                      std::copy(p_end.begin(), p_end.end(),
-                                std::back_inserter(annot));
+                      XMLElement p;
+                      p.element_type = XMLElement::OrdinaryElement;
+                      p.element_name = "p";
+                      p.elements.emplace_back(content);
+
+                      annotation.elements.emplace_back(p);
+                    }
+                  else
+                    {
+                      annotation.elements.emplace_back(content);
                     }
                 }
               break;
             }
-          found = true;
-          annot.erase(n, find_str.size());
-          annot.insert(annot.begin() + n, p_end.begin(), p_end.end());
+          found_n = true;
+          XMLElement content;
+          content.element_type = XMLElement::ElementContent;
+          std::copy(annot.begin() + n_beg, annot.begin() + n_end,
+                    std::back_inserter(content.content));
+
+          if(!content.content.empty())
+            {
+              XMLElement p;
+              p.element_type = XMLElement::OrdinaryElement;
+              p.element_name = "p";
+              p.elements.emplace_back(content);
+
+              annotation.elements.emplace_back(p);
+            }
+          n_beg = n_end + find_str.size();
         }
 
-      find_str = p_end;
-      n = annot.size() - 1;
-      found = false;
-      for(;;)
-        {
-          n = annot.rfind(find_str, n);
-          if(n == std::string::npos)
-            {
-              if(found)
-                {
-                  if(*annot.begin() != '<')
-                    {
-                      annot.insert(annot.begin(), p_beg.begin(), p_beg.end());
-                    }
-                }
-              break;
-            }
-          found = true;
-          if(n != annot.size() - p_end.size())
-            {
-              annot.insert(annot.begin() + n + p_end.size(), p_beg.begin(),
-                           p_beg.end());
-            }
-          n -= p_beg.size();
-        }
-      write_buf += "<annotation>";
-      write_buf += annot;
-      write_buf += "</annotation>";
+      elements.emplace_back(annotation);
     }
 }
 
 void
 MLFBDPlugin::appendSequence(
-    std::string &write_buf,
+    std::vector<XMLElement> &elements,
     const Glib::RefPtr<Gio::ListStore<SequenceModelItem>> &sequences)
 {
   guint n = sequences->get_n_items();
@@ -1478,13 +2029,26 @@ MLFBDPlugin::appendSequence(
       for(guint i = 0; i < n; i++)
         {
           Glib::RefPtr<SequenceModelItem> item = sequences->get_item(i);
-          write_buf += "<sequence ";
-          write_buf += "name=\"" + std::string(item->name) + "\"";
+
+          XMLElement el;
+          el.element_type = XMLElement::OrdinaryElement;
+          el.element_name = "sequence";
+          el.empty = true;
+
+          XMLElementAttribute attr;
+          attr.attribute_id = "name";
+          attr.attribute_value = std::string(item->name);
+          el.element_attributes.emplace_back(attr);
+
           if(!item->number.empty())
             {
-              write_buf += " number=\"" + std::string(item->number) + "\"";
+              attr = XMLElementAttribute();
+              attr.attribute_id = "number";
+              attr.attribute_value = std::string(item->number);
+              el.element_attributes.emplace_back(attr);
             }
-          write_buf += "/>";
+
+          elements.emplace_back(el);
         }
     }
 }
@@ -1569,11 +2133,12 @@ MLFBDPlugin::errorDialog(const ApplyError &er)
   box->append(*close);
 
   window->signal_close_request().connect(
-      [window] {
-        std::unique_ptr<Gtk::Window> win(window);
-        win->set_visible(false);
-        return true;
-      },
+      [window]
+        {
+          std::unique_ptr<Gtk::Window> win(window);
+          win->set_visible(false);
+          return true;
+        },
       false);
 
   window->present();

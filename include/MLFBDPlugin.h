@@ -21,6 +21,7 @@
 #include <GenreModelItem.h>
 #include <MLPlugin.h>
 #include <SequenceModelItem.h>
+#include <XMLElement.h>
 #include <giomm-2.68/giomm/liststore.h>
 #include <gtkmm-4.0/gtkmm/entry.h>
 #include <gtkmm-4.0/gtkmm/frame.h>
@@ -65,21 +66,21 @@ private:
              const std::string &write_buf);
 
   void
-  appendGenres(std::string &write_buf,
+  appendGenres(std::vector<XMLElement> &elements,
                const Glib::RefPtr<Gio::ListStore<GenreModelItem>> &genres);
 
   void
-  appendAuthors(std::string &write_buf,
+  appendAuthors(std::vector<XMLElement> &elements,
                 const Glib::RefPtr<Gio::ListStore<AuthorModelItem>> &authors,
                 const AuthorsFrame::Type &type);
 
   void
-  appendAnnotation(std::string &write_buf,
+  appendAnnotation(std::vector<XMLElement> &elements,
                    const Glib::RefPtr<Gtk::TextBuffer> &t_buf);
 
   void
   appendSequence(
-      std::string &write_buf,
+      std::vector<XMLElement> &elements,
       const Glib::RefPtr<Gio::ListStore<SequenceModelItem>> &sequences);
 
   enum ApplyError

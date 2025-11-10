@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.16)
 
-project(MLFBDPlugin VERSION 1.0 LANGUAGES CXX)
+project(MLFBDPlugin VERSION 1.1 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -32,6 +32,7 @@ target_include_directories(mlfbdplugin
 target_link_libraries(mlfbdplugin
     PRIVATE MLPluginIfc::mlpluginifc
     PRIVATE MLBookProc::mlbookproc
+    PRIVATE XMLParserCPP::XMLParserCPP
     PRIVATE PkgConfig::IMAGEMAGICK
 )
 
