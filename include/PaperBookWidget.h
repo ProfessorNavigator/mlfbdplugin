@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Yury Bobylev <bobilev_yury@mail.ru>
+ * Copyright (C) 2026 Yury Bobylev <bobilev_yury@mail.ru>
  *
  * This program is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the Free
@@ -13,30 +13,38 @@
  * You should have received a copy of the GNU General Public License along with
  * this program. If not, see <https://www.gnu.org/licenses/>.
  */
-#ifndef SEQUENCEFRAME_H
-#define SEQUENCEFRAME_H
+#ifndef PAPERBOOKWIDGET_H
+#define PAPERBOOKWIDGET_H
 
-#include <SequenceModelItem.h>
-#include <giomm-2.68/giomm/liststore.h>
-#include <gtkmm-4.0/gtkmm/columnview.h>
-#include <gtkmm-4.0/gtkmm/frame.h>
-#include <gtkmm-4.0/gtkmm/window.h>
+#include <QLineEdit>
+#include <QScrollArea>
+#include <QWidget>
+#include <SeriesModel.h>
 
-class SequenceFrame : public Gtk::Frame
+class PaperBookWidget : public QScrollArea
 {
+  Q_OBJECT
 public:
-  SequenceFrame(Gtk::Window *main_window);
+  PaperBookWidget(QWidget *parent);
 
-  Glib::RefPtr<Gio::ListStore<SequenceModelItem>>
-  getModel();
+  virtual ~PaperBookWidget();
+
+  QLineEdit *paper_book_name;
+  QLineEdit *paper_book_publisher;
+  QLineEdit *paper_book_city;
+  QLineEdit *paper_book_year;
+  QLineEdit *paper_book_isbn;
+  SeriesModel *paper_book_series = nullptr;
 
 private:
   void
-  createFrame();
+  createWidget();
 
-  Gtk::Window *main_window;
+  QWidget *
+  seriesSection();
 
-  Gtk::ColumnView *sequence_view;
+  void
+  addSeries();
 };
 
-#endif // SEQUENCEFRAME_H
+#endif // PAPERBOOKWIDGET_H

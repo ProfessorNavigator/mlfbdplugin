@@ -13,31 +13,35 @@
  * You should have received a copy of the GNU General Public License along with
  * this program. If not, see <https://www.gnu.org/licenses/>.
  */
-#ifndef GENREVIEW_H
-#define GENREVIEW_H
 
-#include <GenreModel.h>
-#include <QMouseEvent>
-#include <QTreeView>
+#include <ColorButton.h>
+#include <QVBoxLayout>
 
-class GenreView : public QTreeView
+ColorButton::ColorButton()
 {
-  Q_OBJECT
-public:
-  GenreView(QWidget *parent, const std::shared_ptr<GenreBase> &genre_base);
+  createButton();
+}
 
-  virtual ~GenreView();
+void
+ColorButton::setBakcroundColor(const QString &style)
+{
+  QString str = "background-color: " + style;
+  background_w->setStyleSheet(str);
+  current_style = style;
+}
 
-signals:
-  void
-  signalGenreSelected(const QModelIndex &index);
+QString
+ColorButton::getBackGroundColor()
+{
+  return current_style;
+}
 
-protected:
-  void
-  mousePressEvent(QMouseEvent *event) override;
+void
+ColorButton::createButton()
+{
+  QVBoxLayout *v_box = new QVBoxLayout;
+  this->setLayout(v_box);
 
-private:
-  GenreModel *model;
-};
-
-#endif // GENREVIEW_H
+  background_w = new QWidget;
+  v_box->addWidget(background_w);
+}

@@ -1,0 +1,13 @@
+#TabWidget {
+    background-color: rgba(61, 152, 203, 0);
+}
+
+#TabBar::tab {
+    background-color: rgba(137, 186, 181, 255);
+    color: rgba(0, 0, 255, 255);
+}
+
+#TabBar::tab:selected {
+    background-color: rgba(202, 93, 187, 255);
+    color: rgba(0, 0, 0, 255);
+}

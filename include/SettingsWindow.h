@@ -13,31 +13,43 @@
  * You should have received a copy of the GNU General Public License along with
  * this program. If not, see <https://www.gnu.org/licenses/>.
  */
-#ifndef FILESWIDGET_H
-#define FILESWIDGET_H
+#ifndef SETTINGSWINDOW_H
+#define SETTINGSWINDOW_H
 
-#include <MLBookProc.h>
-#include <QFileDialog>
+#include <ColorButton.h>
 #include <QLineEdit>
-#include <QScrollArea>
+#include <QPaintEvent>
+#include <QWidget>
+#include <SettingsManager.h>
+#include <memory>
 
-class FilesWidget : public QScrollArea
+class SettingsWindow : public QWidget
 {
   Q_OBJECT
 public:
-  FilesWidget(QWidget *parent, const std::shared_ptr<MLBookProc> &mlbp);
+  SettingsWindow(QWidget *parent,
+                 const std::shared_ptr<SettingsManager> &settings);
 
-  QLineEdit *src_file;
-  QLineEdit *result_file;
+  void
+  createWindow();
 
 private:
-  void
-  createWidget();
+  QWidget *
+  tabWidget();
 
   void
-  openFileDialog(QLineEdit *edit, const QFileDialog::AcceptMode &mode);
+  colorDialog(ColorButton *cb, const QColor &color, const std::string &id,
+              const std::string &attribute);
 
-  std::shared_ptr<MLBookProc> mlbp;
+  void
+  paintEvent(QPaintEvent *event) override;
+
+  void
+  resetToDafaultDialog();
+
+  std::shared_ptr<SettingsManager> settings;
+
+  std::shared_ptr<SettingsManager> settings_copy;
 };
 
-#endif // FILESWIDGET_H
+#endif // SETTINGSWINDOW_H

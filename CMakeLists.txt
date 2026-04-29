@@ -1,56 +1,56 @@
 cmake_minimum_required(VERSION 3.16)
 
-project(MLFBDPlugin VERSION 1.1 LANGUAGES CXX)
+project(MLFBDPlugin LANGUAGES CXX)
 
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_AUTOUIC ON)
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTORCC ON)
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(MLPluginIfc REQUIRED)
-find_package(Intl REQUIRED)
-find_package(Gettext)
+find_package(Qt6 REQUIRED COMPONENTS Core LinguistTools)
 
+find_package(MLPlugin REQUIRED)
+
+find_package(Threads REQUIRED)
+
+find_package(PkgConfig REQUIRED)
 pkg_check_modules(IMAGEMAGICK REQUIRED IMPORTED_TARGET Magick++)
 
-find_package(Threads QUIET)
-
-add_library(mlfbdplugin SHARED)
-
-set_target_properties(mlfbdplugin PROPERTIES POSITION_INDEPENDENT_CODE True)
-
-set_target_properties(mlfbdplugin PROPERTIES
-  VERSION ${PROJECT_VERSION}
-  SOVERSION ${PROJECT_VERSION_MAJOR}
-)
+add_library(MLFBDPlugin SHARED)
 
 add_subdirectory(include)
 add_subdirectory(src)
 
-target_include_directories(mlfbdplugin
-    PRIVATE include
+qt_collect_translation_source_targets(i18n_targets DIRECTORY src)
+
+qt_add_translations(
+    TARGETS MLFBDPlugin
+    SOURCE_TARGETS ${i18n_targets}
+    TS_FILES translations/MLFBDPlugin_ru_RU.ts
 )
 
-target_link_libraries(mlfbdplugin
-    PRIVATE MLPluginIfc::mlpluginifc
-    PRIVATE MLBookProc::mlbookproc
-    PRIVATE XMLParserCPP::XMLParserCPP
-    PRIVATE PkgConfig::IMAGEMAGICK
+qt_add_resources(MLFBDPlugin "mlfbd_styles"
+    PREFIX "/"
+    FILES "styles/mlfbd_styles.css"
 )
 
-if(Threads_FOUND)
-  target_link_libraries(mlfbdplugin
-      PRIVATE Threads::Threads
-  )
-endif()
+target_include_directories(MLFBDPlugin
+  PRIVATE
+    include
+)
+
+target_link_libraries(MLFBDPlugin
+  PRIVATE
+    MLPlugin::MLPlugin
+    MLBookProc::MLBookProc
+    XMLParserCPP::XMLParserCPP
+    Threads::Threads
+    PkgConfig::IMAGEMAGICK
+)
 
 include(GNUInstallDirs)
 
-install(TARGETS mlfbdplugin EXPORT "${PROJECT_NAME}Targets"
-  LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+install(TARGETS MLFBDPlugin EXPORT
+  LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}/${PROJECT_NAME}
 )
-
-if(Gettext_FOUND)
-   GETTEXT_PROCESS_PO_FILES("ru" ALL
-    INSTALL_DESTINATION "${CMAKE_INSTALL_LOCALEDIR}"
-    PO_FILES "po/${PROJECT_NAME}.po"
-  )
-endif()

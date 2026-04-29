@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Yury Bobylev <bobilev_yury@mail.ru>
+ * Copyright (C) 2026 Yury Bobylev <bobilev_yury@mail.ru>
  *
  * This program is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the Free
@@ -13,38 +13,31 @@
  * You should have received a copy of the GNU General Public License along with
  * this program. If not, see <https://www.gnu.org/licenses/>.
  */
-#ifndef GENREMODELITEM_H
-#define GENREMODELITEM_H
+#ifndef COLORBUTTON_H
+#define COLORBUTTON_H
 
-#include <glibmm-2.68/glibmm/object.h>
-#include <gtkmm-4.0/gtkmm/label.h>
-#include <vector>
+#include <QObject>
+#include <QPushButton>
 
-class GenreModelItem : public Glib::Object
+class ColorButton : public QPushButton
 {
+  Q_OBJECT
 public:
-  static Glib::RefPtr<GenreModelItem>
-  create();
-
-  Glib::ustring genre_code;
-  Glib::ustring genre_name;
+  ColorButton();
 
   void
-  addLabel(Gtk::Label *lab);
+  setBakcroundColor(const QString &style);
 
+  QString
+  getBackGroundColor();
+
+private:
   void
-  removeLabel(Gtk::Label *lab);
+  createButton();
 
-  void
-  setActive();
+  QWidget *background_w;
 
-  void
-  setInactive();
-
-protected:
-  GenreModelItem();
-
-  std::vector<Gtk::Label *> lab_v;
+  QString current_style;
 };
 
-#endif // GENREMODELITEM_H
+#endif // COLORBUTTON_H

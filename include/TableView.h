@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Yury Bobylev <bobilev_yury@mail.ru>
+ * Copyright (C) 2026 Yury Bobylev <bobilev_yury@mail.ru>
  *
  * This program is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the Free
@@ -13,37 +13,38 @@
  * You should have received a copy of the GNU General Public License along with
  * this program. If not, see <https://www.gnu.org/licenses/>.
  */
-#ifndef SEQUENCEMODELITEM_H
-#define SEQUENCEMODELITEM_H
+#ifndef TABLEVIEW_H
+#define TABLEVIEW_H
 
-#include <glibmm-2.68/glibmm/object.h>
-#include <gtkmm-4.0/gtkmm/label.h>
+#include <QResizeEvent>
+#include <QTableView>
+#include <QWidget>
 
-class SequenceModelItem : public Glib::Object
+class TableView : public QTableView
 {
+  Q_OBJECT
 public:
-  static Glib::RefPtr<SequenceModelItem>
-  create();
+  TableView(QWidget *parent = nullptr);
 
-  Glib::ustring name;
-  Glib::ustring number;
+signals:
+  void
+  signalResized(const QSize &new_size);
 
   void
-  addLabel(Gtk::Label *lab);
+  signalShowed();
 
   void
-  setActive();
+  signalLeftMouseButton(const QPoint &global);
+
+private:
+  void
+  resizeEvent(QResizeEvent *event) override;
 
   void
-  setInactve();
+  showEvent(QShowEvent *event) override;
 
   void
-  removeLabel(Gtk::Label *lab);
-
-protected:
-  SequenceModelItem();
-
-  std::vector<Gtk::Label *> lab_v;
+  mousePressEvent(QMouseEvent *event) override;
 };
 
-#endif // SEQUENCEMODELITEM_H
+#endif // TABLEVIEW_H

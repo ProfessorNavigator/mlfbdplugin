@@ -13,31 +13,35 @@
  * You should have received a copy of the GNU General Public License along with
  * this program. If not, see <https://www.gnu.org/licenses/>.
  */
-#ifndef GENREVIEW_H
-#define GENREVIEW_H
 
-#include <GenreModel.h>
-#include <QMouseEvent>
-#include <QTreeView>
+#include <TableView.h>
 
-class GenreView : public QTreeView
+TableView::TableView(QWidget *parent) : QTableView(parent)
 {
-  Q_OBJECT
-public:
-  GenreView(QWidget *parent, const std::shared_ptr<GenreBase> &genre_base);
+}
 
-  virtual ~GenreView();
+void
+TableView::resizeEvent(QResizeEvent *event)
+{
+  QTableView::resizeEvent(event);
 
-signals:
-  void
-  signalGenreSelected(const QModelIndex &index);
+  emit signalResized(event->size());
+}
 
-protected:
-  void
-  mousePressEvent(QMouseEvent *event) override;
+void
+TableView::showEvent(QShowEvent *event)
+{
+  QTableView::showEvent(event);
+  emit signalShowed();
+}
 
-private:
-  GenreModel *model;
-};
-
-#endif // GENREVIEW_H
+void
+TableView::mousePressEvent(QMouseEvent *event)
+{
+  if(event->button() == Qt::LeftButton)
+    {
+      QPoint pos = event->globalPosition().toPoint();
+      emit signalLeftMouseButton(pos);
+    }
+  QTableView::mousePressEvent(event);
+}

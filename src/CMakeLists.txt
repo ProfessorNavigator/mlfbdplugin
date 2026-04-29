@@ -1,18 +1,20 @@
-target_sources (mlfbdplugin
-    PRIVATE AddAuthorWindow.cpp
-    PRIVATE AddGenreWindow.cpp
-    PRIVATE AddSequenceWindow.cpp
-    PRIVATE AuthorsFrame.cpp
-    PRIVATE AuthorsView.cpp
-    PRIVATE AuthorModelItem.cpp
-    PRIVATE CoverFrame.cpp
-    PRIVATE FilesWidget.cpp
-    PRIVATE GenreFrame.cpp
-    PRIVATE GenreModelItem.cpp
-    PRIVATE GenreView.cpp
-    PRIVATE MLFBDPlugin.cpp
-    PRIVATE SaveArchive.cpp
-    PRIVATE SequenceFrame.cpp
-    PRIVATE SequenceModelItem.cpp
-    PRIVATE SequenceView.cpp
+target_sources(MLFBDPlugin PRIVATE
+    AuthorsModel.cpp
+    BookWidget.cpp
+    ColorButton.cpp
+    DocumentInfoWidget.cpp
+    FBDCreation.cpp
+    FilesWidget.cpp
+    GenreEditModel.cpp
+    GenreModel.cpp
+    GenreView.cpp
+    MainWindow.cpp
+    MLFBDPlugin.cpp
+    PaperBookWidget.cpp
+    SeriesModel.cpp
+    SettingsManager.cpp
+    SettingsWindow.cpp
+    SourceUrlsModel.cpp
+    StyledWindow.cpp
+    TableView.cpp
 )

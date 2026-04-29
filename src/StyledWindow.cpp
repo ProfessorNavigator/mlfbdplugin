@@ -13,36 +13,41 @@
  * You should have received a copy of the GNU General Public License along with
  * this program. If not, see <https://www.gnu.org/licenses/>.
  */
-#ifndef MLFBDPLUGIN_H
-#define MLFBDPLUGIN_H
 
-#include <MLPlugin.h>
-#include <QWidget>
+#include <QPainter>
+#include <QStyleOption>
+#include <StyledWindow.h>
 
-class MLFBDPlugin : public MLPlugin
+StyledWindow::StyledWindow(QWidget *parent) : QWidget{ parent }
 {
-public:
-  MLFBDPlugin(void *bases, void *plugin_path);
-
-  void
-  createWindow(QWidget *parent) override;
-};
-
-extern "C"
-{
-#if defined(__linux)
-  MLPlugin *
-  create(void *bases, void *plugin_path)
-  {
-    return new MLFBDPlugin(bases, plugin_path);
-  }
-#elif defined(_WIN32)
-  __declspec(dllexport) MLPlugin *
-  create(void *bases, void *plugin_path)
-  {
-    return new MLFBDPlugin(bases, plugin_path);
-  }
-#endif
+  this->setWindowFlag(Qt::Window, true);
+  this->setAttribute(Qt::WA_DeleteOnClose);
 }
 
-#endif // MLFBDPLUGIN_H
+void
+StyledWindow::allowClose(const bool &allow)
+{
+  allow_close.store(allow, std::memory_order::relaxed);
+}
+
+void
+StyledWindow::paintEvent(QPaintEvent *event)
+{
+  QStyleOption opt;
+  opt.initFrom(this);
+  QPainter p(this);
+  style()->drawPrimitive(QStyle::PE_Widget, &opt, &p, this);
+}
+
+void
+StyledWindow::closeEvent(QCloseEvent *event)
+{
+  if(allow_close.load())
+    {
+      event->accept();
+    }
+  else
+    {
+      event->ignore();
+    }
+}
