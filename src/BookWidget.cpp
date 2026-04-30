@@ -957,6 +957,16 @@ BookWidget::openCover()
       filters.append(it->mimeType().c_str());
     }
 
+  QString def_filter;
+  for(qsizetype i = 0; i < filters.size(); i++)
+    {
+      if(!def_filter.isEmpty())
+        {
+          def_filter += ", ";
+        }
+      def_filter += filters[i];
+    }
+  filters.insert(0, def_filter);
   fd->setMimeTypeFilters(filters);
 
   connect(fd, &QFileDialog::fileSelected, this, &BookWidget::setCover);

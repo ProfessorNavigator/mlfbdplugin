@@ -112,12 +112,18 @@ FilesWidget::openFileDialog(QLineEdit *edit,
     {
       std::vector<std::string> sup = mlbp->getSupportedArchivesTypesPacking();
       QStringList filters;
+      QString def;
       for(auto it = sup.begin(); it != sup.end(); it++)
         {
           QString str = "*.";
           str += it->c_str();
+          if(it == sup.begin())
+            {
+              def = it->c_str();
+            }
           filters.append(str);
         }
+      fd->setDefaultSuffix(def);
       fd->setNameFilters(filters);
     }
 
