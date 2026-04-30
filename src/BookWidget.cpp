@@ -952,21 +952,21 @@ BookWidget::openCover()
   image_formats.erase(end, image_formats.end());
 
   QStringList filters;
+  std::string find_str = "jpeg";
   for(auto it = image_formats.begin(); it != image_formats.end(); it++)
     {
-      filters.append(it->mimeType().c_str());
+      std::string filter = it->mimeType();
+      std::string::size_type n = filter.find(find_str);
+      if(n == std::string::npos)
+        {
+          filters.append(filter.c_str());
+        }
+      else
+        {
+          filters.prepend(filter.c_str());
+        }
     }
 
-  QString def_filter;
-  for(qsizetype i = 0; i < filters.size(); i++)
-    {
-      if(!def_filter.isEmpty())
-        {
-          def_filter += ", ";
-        }
-      def_filter += filters[i];
-    }
-  filters.insert(0, def_filter);
   fd->setMimeTypeFilters(filters);
 
   connect(fd, &QFileDialog::fileSelected, this, &BookWidget::setCover);

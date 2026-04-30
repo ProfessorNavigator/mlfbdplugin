@@ -125,6 +125,28 @@ FilesWidget::openFileDialog(QLineEdit *edit,
         }
       fd->setDefaultSuffix(def);
       fd->setNameFilters(filters);
+      connect(fd, &QFileDialog::filterSelected,
+              [fd](const QString &filter)
+                {
+                  QString search(" ");
+                  QString local = filter;
+                  qsizetype n = local.indexOf(search);
+                  if(n >= 0)
+                    {
+                      local.erase(local.begin() + n, local.end());
+                    }
+                  search = "*.";
+                  n = local.indexOf(search);
+                  if(n >= 0)
+                    {
+                      local.erase(local.begin(),
+                                  local.begin() + n + search.size());
+                    }
+                  if(!local.isEmpty())
+                    {
+                      fd->setDefaultSuffix(local);
+                    }
+                });
     }
 
   connect(fd, &QFileDialog::fileSelected, edit, &QLineEdit::setText);
