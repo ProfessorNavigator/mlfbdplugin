@@ -1,43 +1,19 @@
 # MLFBDPlugin
 
-Плагин для [MyLibrary](https://github.com/ProfessorNavigator/mylibrary). Создаёт книги в формате fbd (файл книги упаковывается в архив вместе с fbd файлом, содержащем тэг `description` формата [fb2](https://github.com/gribuser/fb2)). Возможно добавление любых файлов, не только книг.
+Плагин для [MyLibrary](https://github.com/ProfessorNavigator/mylibrary). Создаёт книги в формате fbd (файл книги упаковывается в архив вместе с fbd файлом, содержащем тег `description` формата [fb2](https://github.com/gribuser/fb2)). Возможно добавление любых файлов, не только книг.
 
 ## Установка
-MLFBDPlugin может быть установлен в любую директорию операционной системы.
-Единственное обязательное требование - файл перевода (MLFBDPlugin.mo) должен находиться в директории <path_to_mylibrary_executable>/../share/locale/<language_code>/LC_MESSAGES. В противном случае в плагине будет использоваться английский язык.
+`cmake -DCMAKE_BUILD_TYPE=release -S <path_to_sources> -B <path_to_build_dir>` \
+`cmake --build <path_to_build_dir>` \
+`cmake --install <path_to_build_dir>`
 
-### Linux
-`git clone https://github.com/ProfessorNavigator/mlfbdplugin.git` \
-`cd mlfbdplugin` \
-`cmake -DCMAKE_BUILD_TYPE=Release -B _build`\
-`cmake --build _build`\
-`cmake --install _build`
-
-Вам могут потребоваться привилегии суперпользователя для выполнения последней команды.
-
-Также вам может потребоваться задать префикс опцией CMAKE_INSTALL_PREFIX (перфикс по умолчанию `/usr/local`).
-
-### Windows
-Для сборки и установки вам потребуется [MSYS2](https://www.msys2.org/). Кроме того вам нужно установить зависимости из секции `Зависимости`. После установки необходимых зависимостей откройте консоль MinGW и выполните следующие команды (в примере предполагается, что скачивание кода происходит в C:\MLFBDPlugin):
-
-`mkdir -pv /c/MLFBDPlugin`\
-`cd /c/MLFBDPlugin` \
-`git clone https://altlinux.space/professornavigator/mlfbdplugin.git` \
-`cd mlfbdplugin`\
-`cmake -DCMAKE_BUILD_TYPE=Release -B ../_build`\
-`cmake --build ../_build`\
-`cmake --install ../_build`
-
-Вам также обязательно необходимо указать префикс опцией CMAKE_INSTALL_PREFIX (префикс может быть например `/ucrt64` или `/mingw64`).
+По умолчанию плагин будет установлен в `/usr/local/<libdir>/MLFBDPlugin`
 
 ## Зависимости
-Для сборки MLFBDPlugin нужна программа [MyLibrary](https://github.com/ProfessorNavigator/mylibrary) (версии >= 4.0), собранная с опцией USE_PLUGINS, установленной в `ON`. Также вам необходима библиотека [Magick++](https://imagemagick.org/Magick++/). Кроме того вам может потребоваться git (для клонирования репозитория).
-
-### Windows
-В Windows библиотеки [MyLibrary](https://github.com/ProfessorNavigator/mylibrary) обязательно должны находиться в одной из директорий, указанных в системной переменной Path. Или MyLibrary должна быть установлена с использованием MSYS2.
+Для сборки MLFBDPlugin нужна программа [MyLibrary](https://github.com/ProfessorNavigator/mylibrary) (версии >= 5.0).
 
 ## Использование
-После установки запустите [MyLibrary](https://github.com/ProfessorNavigator/mylibrary) и откройте окно со списком плагинов. Укажите путь до библиотеки libmlfbdplugin. Интерфейс MLFBDPlugin интуитивно понятен. Если у вас всё же возникли вопросы, то см. документацию по тэгу `description` формата [fb2](https://github.com/gribuser/fb2).
+После установки запустите [MyLibrary](https://github.com/ProfessorNavigator/mylibrary) и откройте окно со списком плагинов. Укажите путь до библиотеки libMLFBDPlugin. Интерфейс MLFBDPlugin интуитивно понятен. Если у вас всё же возникли вопросы, то см. документацию по тегу `description` формата [fb2](https://github.com/gribuser/fb2).
 
 ## Лицензия
 

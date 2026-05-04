@@ -75,7 +75,7 @@ FBDCreation::addTextElement(const std::string &target,
                             const std::string &element_name,
                             const std::string &value)
 {
-  std::vector<XMLElement *> elements = std::move(searchTarget(target));
+  std::vector<XMLElement *> elements = searchTarget(target);
 
   XMLElement txt_el;
   txt_el.element_name = element_name;
@@ -93,7 +93,7 @@ void
 FBDCreation::addAuthor(const std::string &target, const UDBElement &author,
                        const AuthorType &type)
 {
-  std::vector<XMLElement *> elements = std::move(searchTarget(target));
+  std::vector<XMLElement *> elements = searchTarget(target);
 
   XMLElement auth;
   switch(type)
@@ -187,7 +187,7 @@ FBDCreation::addAnnotation(const std::string &target,
     {
       return void();
     }
-  std::vector<XMLElement *> elements = std::move(searchTarget(target));
+  std::vector<XMLElement *> elements = searchTarget(target);
 
   XMLElement annot;
   annot.element_name = "annotation";
@@ -206,7 +206,7 @@ FBDCreation::addDate(const std::string &target, const std::string &date)
       return void();
     }
 
-  std::vector<XMLElement *> elements = std::move(searchTarget(target));
+  std::vector<XMLElement *> elements = searchTarget(target);
 
   XMLElement d;
   d.element_name = "date";
@@ -234,7 +234,7 @@ FBDCreation::addCoverPage(const std::string &target,
       return void();
     }
 
-  std::vector<XMLElement *> elements = std::move(searchTarget(target));
+  std::vector<XMLElement *> elements = searchTarget(target);
 
   XMLElement cover_page;
   cover_page.element_name = "coverpage";
@@ -261,7 +261,7 @@ FBDCreation::addCoverPage(const std::string &target,
 
   (*elements.begin())->elements.emplace_back(cover_page);
 
-  elements = std::move(searchTarget("FictionBook"));
+  elements = searchTarget("FictionBook");
 
   cover_page = XMLElement();
   cover_page.element_name = "binary";
@@ -295,7 +295,7 @@ FBDCreation::addCoverPage(const std::string &target,
 void
 FBDCreation::addSequence(const std::string &target, const UDBElement &sequence)
 {
-  std::vector<XMLElement *> elements = std::move(searchTarget(target));
+  std::vector<XMLElement *> elements = searchTarget(target);
 
   XMLElement seq;
   seq.element_name = "sequence";
@@ -347,7 +347,7 @@ FBDCreation::addHistory(const std::string &target, const std::string &history)
       return void();
     }
 
-  std::vector<XMLElement *> elements = std::move(searchTarget(target));
+  std::vector<XMLElement *> elements = searchTarget(target);
 
   XMLElement hist;
   hist.element_name = "history";
@@ -366,7 +366,7 @@ FBDCreation::addCustomInfo(const std::string &info)
       return void();
     }
 
-  std::vector<XMLElement *> elements = std::move(searchTarget("description"));
+  std::vector<XMLElement *> elements = searchTarget("description");
 
   XMLElement info_el;
   info_el.element_name = "custom-info";
