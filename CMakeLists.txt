@@ -24,12 +24,8 @@ add_library(MLFBDPlugin SHARED)
 add_subdirectory(include)
 add_subdirectory(src)
 
-qt_collect_translation_source_targets(i18n_targets DIRECTORY src)
-
-qt_add_translations(
-    TARGETS MLFBDPlugin
-    SOURCE_TARGETS ${i18n_targets}
-    TS_FILES translations/MLFBDPlugin_ru_RU.ts
+qt_add_translations(MLFBDPlugin
+  TS_FILES translations/MLFBDPlugin_ru_RU.ts
 )
 
 qt_add_resources(MLFBDPlugin "mlfbd_styles"
