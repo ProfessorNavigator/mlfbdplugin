@@ -23,6 +23,7 @@
 #include <QMenu>
 #include <QPushButton>
 #include <QVBoxLayout>
+#include <StyledItemDelegate.h>
 #include <StyledWindow.h>
 #include <TableView.h>
 
@@ -123,6 +124,10 @@ PaperBookWidget::seriesSection()
   TableView *table = new TableView;
   table->setObjectName("Table");
   table->viewport()->setObjectName("TableViewport");
+  QAbstractItemDelegate *delegate = table->itemDelegate();
+  StyledItemDelegate *item_delegate = new StyledItemDelegate(table);
+  table->setItemDelegate(item_delegate);
+  delete delegate;
   QAbstractItemModel *prev = table->model();
   table->setModel(paper_book_series);
   delete prev;

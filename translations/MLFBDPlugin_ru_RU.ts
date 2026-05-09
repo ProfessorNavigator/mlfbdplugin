@@ -42,186 +42,186 @@
 <context>
     <name>BookWidget</name>
     <message>
-        <location filename="../src/BookWidget.cpp" line="88"/>
+        <location filename="../src/BookWidget.cpp" line="89"/>
         <source>Book title:</source>
         <translation>Название книги:</translation>
     </message>
     <message>
-        <location filename="../src/BookWidget.cpp" line="95"/>
-        <location filename="../src/BookWidget.cpp" line="108"/>
+        <location filename="../src/BookWidget.cpp" line="96"/>
+        <location filename="../src/BookWidget.cpp" line="109"/>
         <source>Mandatory</source>
         <translation>Обязательно к заполнению</translation>
     </message>
     <message>
-        <location filename="../src/BookWidget.cpp" line="101"/>
+        <location filename="../src/BookWidget.cpp" line="102"/>
         <source>Book language:</source>
         <translation>Язык книги:</translation>
     </message>
     <message>
-        <location filename="../src/BookWidget.cpp" line="114"/>
+        <location filename="../src/BookWidget.cpp" line="115"/>
         <source>Book creation date:</source>
         <translation>Дата создания книги:</translation>
     </message>
     <message>
-        <location filename="../src/BookWidget.cpp" line="123"/>
+        <location filename="../src/BookWidget.cpp" line="124"/>
         <source>Source language:</source>
         <translation>Исходный язык:</translation>
     </message>
     <message>
-        <location filename="../src/BookWidget.cpp" line="132"/>
+        <location filename="../src/BookWidget.cpp" line="133"/>
         <source>Keywords:</source>
         <translation>Ключевые слова:</translation>
     </message>
     <message>
-        <location filename="../src/BookWidget.cpp" line="151"/>
+        <location filename="../src/BookWidget.cpp" line="152"/>
         <source>Annotation:</source>
         <translation>Аннотация:</translation>
     </message>
     <message>
-        <location filename="../src/BookWidget.cpp" line="190"/>
+        <location filename="../src/BookWidget.cpp" line="191"/>
         <source>Book authors:</source>
         <translation>Авторы книги:</translation>
     </message>
     <message>
-        <location filename="../src/BookWidget.cpp" line="194"/>
+        <location filename="../src/BookWidget.cpp" line="195"/>
         <source>Book translators:</source>
         <translation>Переводчики:</translation>
     </message>
     <message>
-        <location filename="../src/BookWidget.cpp" line="248"/>
-        <location filename="../src/BookWidget.cpp" line="308"/>
+        <location filename="../src/BookWidget.cpp" line="253"/>
+        <location filename="../src/BookWidget.cpp" line="313"/>
         <source>Add author</source>
         <translation>Добавить автора</translation>
     </message>
     <message>
-        <location filename="../src/BookWidget.cpp" line="264"/>
+        <location filename="../src/BookWidget.cpp" line="269"/>
         <source>Edit</source>
         <translation>Редактировать</translation>
     </message>
     <message>
-        <location filename="../src/BookWidget.cpp" line="272"/>
-        <location filename="../src/BookWidget.cpp" line="534"/>
+        <location filename="../src/BookWidget.cpp" line="277"/>
+        <location filename="../src/BookWidget.cpp" line="547"/>
         <source>Remove</source>
         <translation>Удалить</translation>
     </message>
     <message>
-        <location filename="../src/BookWidget.cpp" line="312"/>
+        <location filename="../src/BookWidget.cpp" line="317"/>
         <source>Add translator</source>
         <translation>Добавить переводчика</translation>
     </message>
     <message>
-        <location filename="../src/BookWidget.cpp" line="326"/>
-        <location filename="../src/BookWidget.cpp" line="455"/>
+        <location filename="../src/BookWidget.cpp" line="331"/>
+        <location filename="../src/BookWidget.cpp" line="464"/>
         <source>Edit selected</source>
         <translation>Редактировать выбранное</translation>
     </message>
     <message>
-        <location filename="../src/BookWidget.cpp" line="338"/>
-        <location filename="../src/BookWidget.cpp" line="466"/>
-        <location filename="../src/BookWidget.cpp" line="571"/>
+        <location filename="../src/BookWidget.cpp" line="343"/>
+        <location filename="../src/BookWidget.cpp" line="475"/>
+        <location filename="../src/BookWidget.cpp" line="584"/>
         <source>Remove selected</source>
         <translation>Удалить выбранное</translation>
     </message>
     <message>
-        <location filename="../src/BookWidget.cpp" line="364"/>
+        <location filename="../src/BookWidget.cpp" line="369"/>
         <source>Book series:</source>
         <translation>Серия:</translation>
     </message>
     <message>
-        <location filename="../src/BookWidget.cpp" line="442"/>
+        <location filename="../src/BookWidget.cpp" line="451"/>
         <source>Add series</source>
         <translation>Добавить серию</translation>
     </message>
     <message>
-        <location filename="../src/BookWidget.cpp" line="492"/>
+        <location filename="../src/BookWidget.cpp" line="501"/>
         <source>Book genres:</source>
         <translation>Жанры:</translation>
     </message>
     <message>
-        <location filename="../src/BookWidget.cpp" line="529"/>
-        <location filename="../src/BookWidget.cpp" line="560"/>
+        <location filename="../src/BookWidget.cpp" line="542"/>
+        <location filename="../src/BookWidget.cpp" line="573"/>
         <source>Add genre</source>
         <translation>Добавить жанр</translation>
     </message>
     <message>
-        <location filename="../src/BookWidget.cpp" line="597"/>
+        <location filename="../src/BookWidget.cpp" line="610"/>
         <source>Cover:</source>
         <translation>Обложка:</translation>
     </message>
     <message>
-        <location filename="../src/BookWidget.cpp" line="608"/>
+        <location filename="../src/BookWidget.cpp" line="621"/>
         <source>Open</source>
         <translation>Открыть</translation>
     </message>
     <message>
-        <location filename="../src/BookWidget.cpp" line="619"/>
+        <location filename="../src/BookWidget.cpp" line="632"/>
         <source>Clear</source>
         <translation>Очистить</translation>
     </message>
     <message>
-        <location filename="../src/BookWidget.cpp" line="645"/>
+        <location filename="../src/BookWidget.cpp" line="658"/>
         <source>Author editor</source>
         <translation>Редактор автора</translation>
     </message>
     <message>
-        <location filename="../src/BookWidget.cpp" line="649"/>
+        <location filename="../src/BookWidget.cpp" line="662"/>
         <source>Translator editor</source>
         <translation>Редактор переводчика</translation>
     </message>
     <message>
-        <location filename="../src/BookWidget.cpp" line="658"/>
+        <location filename="../src/BookWidget.cpp" line="671"/>
         <source>Surname:</source>
         <translation>Фамилия:</translation>
     </message>
     <message>
-        <location filename="../src/BookWidget.cpp" line="667"/>
+        <location filename="../src/BookWidget.cpp" line="680"/>
         <source>Name:</source>
         <translation>Имя:</translation>
     </message>
     <message>
-        <location filename="../src/BookWidget.cpp" line="676"/>
+        <location filename="../src/BookWidget.cpp" line="689"/>
         <source>Second name:</source>
         <translation>Отчество:</translation>
     </message>
     <message>
-        <location filename="../src/BookWidget.cpp" line="685"/>
+        <location filename="../src/BookWidget.cpp" line="698"/>
         <source>Nickname:</source>
         <translation>Псевдоним:</translation>
     </message>
     <message>
-        <location filename="../src/BookWidget.cpp" line="694"/>
+        <location filename="../src/BookWidget.cpp" line="707"/>
         <source>Home page:</source>
         <translation>Домашняя стринца:</translation>
     </message>
     <message>
-        <location filename="../src/BookWidget.cpp" line="703"/>
+        <location filename="../src/BookWidget.cpp" line="716"/>
         <source>e-mail:</source>
         <translation>Электронная почта:</translation>
     </message>
     <message>
-        <location filename="../src/BookWidget.cpp" line="712"/>
+        <location filename="../src/BookWidget.cpp" line="725"/>
         <source>ID:</source>
         <translation>Идентификатор:</translation>
     </message>
     <message>
-        <location filename="../src/BookWidget.cpp" line="723"/>
-        <location filename="../src/BookWidget.cpp" line="825"/>
+        <location filename="../src/BookWidget.cpp" line="736"/>
+        <location filename="../src/BookWidget.cpp" line="838"/>
         <source>Add</source>
         <translation>Добавить</translation>
     </message>
     <message>
-        <location filename="../src/BookWidget.cpp" line="780"/>
-        <location filename="../src/BookWidget.cpp" line="864"/>
+        <location filename="../src/BookWidget.cpp" line="793"/>
+        <location filename="../src/BookWidget.cpp" line="877"/>
         <source>Cancel</source>
         <translation>Отмена</translation>
     </message>
     <message>
-        <location filename="../src/BookWidget.cpp" line="805"/>
+        <location filename="../src/BookWidget.cpp" line="818"/>
         <source>Series name:</source>
         <translation>Название серии:</translation>
     </message>
     <message>
-        <location filename="../src/BookWidget.cpp" line="814"/>
+        <location filename="../src/BookWidget.cpp" line="827"/>
         <source>Series book number:</source>
         <translation>Номер книги в серии:</translation>
     </message>
@@ -229,154 +229,154 @@
 <context>
     <name>DocumentInfoWidget</name>
     <message>
-        <location filename="../src/DocumentInfoWidget.cpp" line="65"/>
+        <location filename="../src/DocumentInfoWidget.cpp" line="66"/>
         <source>Program used:</source>
         <translation>Программа:</translation>
     </message>
     <message>
-        <location filename="../src/DocumentInfoWidget.cpp" line="75"/>
+        <location filename="../src/DocumentInfoWidget.cpp" line="76"/>
         <source>Creation date:</source>
         <translation>Дата создания документа:</translation>
     </message>
     <message>
-        <location filename="../src/DocumentInfoWidget.cpp" line="86"/>
+        <location filename="../src/DocumentInfoWidget.cpp" line="87"/>
         <source>Author of the original (online) document:</source>
         <translation>Автор оригинального (сетевого) документа:</translation>
     </message>
     <message>
-        <location filename="../src/DocumentInfoWidget.cpp" line="95"/>
+        <location filename="../src/DocumentInfoWidget.cpp" line="96"/>
         <source>Document ID:</source>
         <translation>Идентификатор документа:</translation>
     </message>
     <message>
-        <location filename="../src/DocumentInfoWidget.cpp" line="116"/>
+        <location filename="../src/DocumentInfoWidget.cpp" line="117"/>
         <source>Document version:</source>
         <translation>Версия документа:</translation>
     </message>
     <message>
-        <location filename="../src/DocumentInfoWidget.cpp" line="128"/>
+        <location filename="../src/DocumentInfoWidget.cpp" line="129"/>
         <source>Document history:</source>
         <translation>История документа:</translation>
     </message>
     <message>
-        <location filename="../src/DocumentInfoWidget.cpp" line="134"/>
+        <location filename="../src/DocumentInfoWidget.cpp" line="135"/>
         <source>Document creation</source>
         <translation>Создание документа</translation>
     </message>
     <message>
-        <location filename="../src/DocumentInfoWidget.cpp" line="160"/>
+        <location filename="../src/DocumentInfoWidget.cpp" line="161"/>
         <source>Document authors:</source>
         <translation>Авторы документа:</translation>
     </message>
     <message>
-        <location filename="../src/DocumentInfoWidget.cpp" line="164"/>
+        <location filename="../src/DocumentInfoWidget.cpp" line="165"/>
         <source>Document publishers:</source>
         <translation>Издатели документа:</translation>
     </message>
     <message>
-        <location filename="../src/DocumentInfoWidget.cpp" line="218"/>
-        <location filename="../src/DocumentInfoWidget.cpp" line="271"/>
+        <location filename="../src/DocumentInfoWidget.cpp" line="223"/>
+        <location filename="../src/DocumentInfoWidget.cpp" line="276"/>
         <source>Add author</source>
         <translation>Добавить автора</translation>
     </message>
     <message>
-        <location filename="../src/DocumentInfoWidget.cpp" line="227"/>
-        <location filename="../src/DocumentInfoWidget.cpp" line="368"/>
+        <location filename="../src/DocumentInfoWidget.cpp" line="232"/>
+        <location filename="../src/DocumentInfoWidget.cpp" line="377"/>
         <source>Edit</source>
         <translation>Редактировать</translation>
     </message>
     <message>
-        <location filename="../src/DocumentInfoWidget.cpp" line="235"/>
+        <location filename="../src/DocumentInfoWidget.cpp" line="240"/>
         <source>Remove</source>
         <translation>Удалить</translation>
     </message>
     <message>
-        <location filename="../src/DocumentInfoWidget.cpp" line="275"/>
+        <location filename="../src/DocumentInfoWidget.cpp" line="280"/>
         <source>Add publisher</source>
         <translation>Добавить издателя</translation>
     </message>
     <message>
-        <location filename="../src/DocumentInfoWidget.cpp" line="289"/>
-        <location filename="../src/DocumentInfoWidget.cpp" line="415"/>
+        <location filename="../src/DocumentInfoWidget.cpp" line="294"/>
+        <location filename="../src/DocumentInfoWidget.cpp" line="424"/>
         <source>Edit selected</source>
         <translation>Редактировать выбранное</translation>
     </message>
     <message>
-        <location filename="../src/DocumentInfoWidget.cpp" line="301"/>
-        <location filename="../src/DocumentInfoWidget.cpp" line="426"/>
+        <location filename="../src/DocumentInfoWidget.cpp" line="306"/>
+        <location filename="../src/DocumentInfoWidget.cpp" line="435"/>
         <source>Remove selected</source>
         <translation>Удалить выбранное</translation>
     </message>
     <message>
-        <location filename="../src/DocumentInfoWidget.cpp" line="327"/>
+        <location filename="../src/DocumentInfoWidget.cpp" line="332"/>
         <source>Document source URLs:</source>
         <translation>Ссылки на источник документа:</translation>
     </message>
     <message>
-        <location filename="../src/DocumentInfoWidget.cpp" line="363"/>
-        <location filename="../src/DocumentInfoWidget.cpp" line="404"/>
+        <location filename="../src/DocumentInfoWidget.cpp" line="372"/>
+        <location filename="../src/DocumentInfoWidget.cpp" line="413"/>
         <source>Add URL</source>
         <translation>Добавить ссылку</translation>
     </message>
     <message>
-        <location filename="../src/DocumentInfoWidget.cpp" line="447"/>
+        <location filename="../src/DocumentInfoWidget.cpp" line="456"/>
         <source>Author editor</source>
         <translation>Редактор автора</translation>
     </message>
     <message>
-        <location filename="../src/DocumentInfoWidget.cpp" line="451"/>
+        <location filename="../src/DocumentInfoWidget.cpp" line="460"/>
         <source>Publisher editor</source>
         <translation>Редактор издателя</translation>
     </message>
     <message>
-        <location filename="../src/DocumentInfoWidget.cpp" line="460"/>
+        <location filename="../src/DocumentInfoWidget.cpp" line="469"/>
         <source>Surname:</source>
         <translation>Фамилия:</translation>
     </message>
     <message>
-        <location filename="../src/DocumentInfoWidget.cpp" line="469"/>
+        <location filename="../src/DocumentInfoWidget.cpp" line="478"/>
         <source>Name:</source>
         <translation>Имя:</translation>
     </message>
     <message>
-        <location filename="../src/DocumentInfoWidget.cpp" line="478"/>
+        <location filename="../src/DocumentInfoWidget.cpp" line="487"/>
         <source>Second name:</source>
         <translation>Отчество:</translation>
     </message>
     <message>
-        <location filename="../src/DocumentInfoWidget.cpp" line="487"/>
+        <location filename="../src/DocumentInfoWidget.cpp" line="496"/>
         <source>Nickname:</source>
         <translation>Псевдоним:</translation>
     </message>
     <message>
-        <location filename="../src/DocumentInfoWidget.cpp" line="496"/>
+        <location filename="../src/DocumentInfoWidget.cpp" line="505"/>
         <source>Home page:</source>
         <translation>Домашняя стринца:</translation>
     </message>
     <message>
-        <location filename="../src/DocumentInfoWidget.cpp" line="505"/>
+        <location filename="../src/DocumentInfoWidget.cpp" line="514"/>
         <source>e-mail:</source>
         <translation>Электронная почта:</translation>
     </message>
     <message>
-        <location filename="../src/DocumentInfoWidget.cpp" line="514"/>
+        <location filename="../src/DocumentInfoWidget.cpp" line="523"/>
         <source>ID:</source>
         <translation>Идентификатор:</translation>
     </message>
     <message>
-        <location filename="../src/DocumentInfoWidget.cpp" line="525"/>
-        <location filename="../src/DocumentInfoWidget.cpp" line="618"/>
+        <location filename="../src/DocumentInfoWidget.cpp" line="534"/>
+        <location filename="../src/DocumentInfoWidget.cpp" line="627"/>
         <source>Add</source>
         <translation>Добавить</translation>
     </message>
     <message>
-        <location filename="../src/DocumentInfoWidget.cpp" line="582"/>
-        <location filename="../src/DocumentInfoWidget.cpp" line="634"/>
+        <location filename="../src/DocumentInfoWidget.cpp" line="591"/>
+        <location filename="../src/DocumentInfoWidget.cpp" line="643"/>
         <source>Cancel</source>
         <translation>Отмена</translation>
     </message>
     <message>
-        <location filename="../src/DocumentInfoWidget.cpp" line="607"/>
+        <location filename="../src/DocumentInfoWidget.cpp" line="616"/>
         <source>URL:</source>
         <translation>Ссылка:</translation>
     </message>
@@ -526,62 +526,62 @@
 <context>
     <name>PaperBookWidget</name>
     <message>
-        <location filename="../src/PaperBookWidget.cpp" line="56"/>
+        <location filename="../src/PaperBookWidget.cpp" line="57"/>
         <source>Paper book name:</source>
         <translation>Название бумажной книги:</translation>
     </message>
     <message>
-        <location filename="../src/PaperBookWidget.cpp" line="65"/>
+        <location filename="../src/PaperBookWidget.cpp" line="66"/>
         <source>Paper book publisher:</source>
         <translation>Издатель бумажной книги:</translation>
     </message>
     <message>
-        <location filename="../src/PaperBookWidget.cpp" line="74"/>
+        <location filename="../src/PaperBookWidget.cpp" line="75"/>
         <source>City:</source>
         <translation>Город:</translation>
     </message>
     <message>
-        <location filename="../src/PaperBookWidget.cpp" line="83"/>
+        <location filename="../src/PaperBookWidget.cpp" line="84"/>
         <source>Year:</source>
         <translation>Год:</translation>
     </message>
     <message>
-        <location filename="../src/PaperBookWidget.cpp" line="118"/>
+        <location filename="../src/PaperBookWidget.cpp" line="119"/>
         <source>Paper book series:</source>
         <translation>Серия:</translation>
     </message>
     <message>
-        <location filename="../src/PaperBookWidget.cpp" line="197"/>
+        <location filename="../src/PaperBookWidget.cpp" line="202"/>
         <source>Add series</source>
         <translation>Добавить серию</translation>
     </message>
     <message>
-        <location filename="../src/PaperBookWidget.cpp" line="210"/>
+        <location filename="../src/PaperBookWidget.cpp" line="215"/>
         <source>Edit selected</source>
         <translation>Редактировать выбранное</translation>
     </message>
     <message>
-        <location filename="../src/PaperBookWidget.cpp" line="221"/>
+        <location filename="../src/PaperBookWidget.cpp" line="226"/>
         <source>Remove selected</source>
         <translation>Удалить выбранное</translation>
     </message>
     <message>
-        <location filename="../src/PaperBookWidget.cpp" line="247"/>
+        <location filename="../src/PaperBookWidget.cpp" line="252"/>
         <source>Series name:</source>
         <translation>Название серии:</translation>
     </message>
     <message>
-        <location filename="../src/PaperBookWidget.cpp" line="256"/>
+        <location filename="../src/PaperBookWidget.cpp" line="261"/>
         <source>Series book number:</source>
         <translation>Номер книги в серии:</translation>
     </message>
     <message>
-        <location filename="../src/PaperBookWidget.cpp" line="267"/>
+        <location filename="../src/PaperBookWidget.cpp" line="272"/>
         <source>Add</source>
         <translation>Добавить</translation>
     </message>
     <message>
-        <location filename="../src/PaperBookWidget.cpp" line="306"/>
+        <location filename="../src/PaperBookWidget.cpp" line="311"/>
         <source>Cancel</source>
         <translation>Отмена</translation>
     </message>

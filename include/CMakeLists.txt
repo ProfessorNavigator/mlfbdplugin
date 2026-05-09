@@ -15,6 +15,7 @@ target_sources(MLFBDPlugin PRIVATE
     SettingsManager.h
     SettingsWindow.h
     SourceUrlsModel.h
+    StyledItemDelegate.h
     StyledWindow.h
     TableView.h
 )

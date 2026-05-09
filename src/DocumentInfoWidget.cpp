@@ -26,6 +26,7 @@
 #include <QMenu>
 #include <QPushButton>
 #include <QVBoxLayout>
+#include <StyledItemDelegate.h>
 #include <StyledWindow.h>
 #include <TableView.h>
 
@@ -179,6 +180,10 @@ DocumentInfoWidget::authorsSection(const AuthorType &type)
   TableView *table = new TableView;
   table->setObjectName("Table");
   table->viewport()->setObjectName("TableViewport");
+  QAbstractItemDelegate *delegate = table->itemDelegate();
+  StyledItemDelegate *item_delegate = new StyledItemDelegate(table);
+  table->setItemDelegate(item_delegate);
+  delete delegate;
   QAbstractItemModel *prev = table->model();
   if(type == AuthorType::Author)
     {
@@ -332,6 +337,10 @@ DocumentInfoWidget::sourceUrlsSection()
   TableView *table = new TableView;
   table->setObjectName("Table");
   table->viewport()->setObjectName("TableViewport");
+  QAbstractItemDelegate *delegate = table->itemDelegate();
+  StyledItemDelegate *item_delegate = new StyledItemDelegate(table);
+  table->setItemDelegate(item_delegate);
+  delete delegate;
   QAbstractItemModel *prev = table->model();
   table->setModel(document_src_urls);
   delete prev;

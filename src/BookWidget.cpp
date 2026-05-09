@@ -29,6 +29,7 @@
 #include <QPixmap>
 #include <QPushButton>
 #include <QVBoxLayout>
+#include <StyledItemDelegate.h>
 #include <StyledWindow.h>
 #include <TableView.h>
 #include <filesystem>
@@ -209,6 +210,10 @@ BookWidget::authorsSection(const AuthorType &type)
   TableView *authors_table = new TableView;
   authors_table->setObjectName("Table");
   authors_table->viewport()->setObjectName("TableViewport");
+  QAbstractItemDelegate *delegate = authors_table->itemDelegate();
+  StyledItemDelegate *item_delegate = new StyledItemDelegate(authors_table);
+  authors_table->setItemDelegate(item_delegate);
+  delete delegate;
   QAbstractItemModel *prev = authors_table->model();
   if(type == AuthorType::Author)
     {
@@ -369,6 +374,10 @@ BookWidget::seriesSection()
   TableView *table = new TableView;
   table->setObjectName("Table");
   table->viewport()->setObjectName("TableViewport");
+  QAbstractItemDelegate *delegate = table->itemDelegate();
+  StyledItemDelegate *item_delegate = new StyledItemDelegate(table);
+  table->setItemDelegate(item_delegate);
+  delete delegate;
   QAbstractItemModel *prev = table->model();
   table->setModel(book_series);
   delete prev;
@@ -497,6 +506,10 @@ BookWidget::genresSection()
   TableView *table = new TableView;
   table->setObjectName("Table");
   table->viewport()->setObjectName("TableViewport");
+  QAbstractItemDelegate *delegate = table->itemDelegate();
+  StyledItemDelegate *item_delegate = new StyledItemDelegate(table);
+  table->setItemDelegate(item_delegate);
+  delete delegate;
   QAbstractItemModel *prev = table->model();
   table->setModel(book_genres);
   delete prev;
